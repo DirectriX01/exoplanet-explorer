@@ -1,0 +1,90 @@
+{
+  "description": "Simplified transit light curves for TRAPPIST-1 b, d, and e based on Spitzer observations. Time in hours relative to mid-transit, flux normalized to 1.0.",
+  "planets": {
+    "b": {
+      "period_days": 1.51,
+      "depth_ppm": 7260,
+      "duration_hours": 0.61,
+      "data": [
+        {"time": -0.50, "flux": 1.0000},
+        {"time": -0.40, "flux": 1.0000},
+        {"time": -0.35, "flux": 1.0001},
+        {"time": -0.32, "flux": 0.9998},
+        {"time": -0.305, "flux": 0.9990},
+        {"time": -0.30, "flux": 0.9970},
+        {"time": -0.28, "flux": 0.9940},
+        {"time": -0.25, "flux": 0.9930},
+        {"time": -0.20, "flux": 0.9927},
+        {"time": -0.15, "flux": 0.9928},
+        {"time": -0.10, "flux": 0.9926},
+        {"time": -0.05, "flux": 0.9274},
+        {"time": -0.05, "flux": 0.9927},
+        {"time": 0.00, "flux": 0.9927},
+        {"time": 0.05, "flux": 0.9926},
+        {"time": 0.10, "flux": 0.9928},
+        {"time": 0.15, "flux": 0.9927},
+        {"time": 0.20, "flux": 0.9930},
+        {"time": 0.25, "flux": 0.9940},
+        {"time": 0.28, "flux": 0.9970},
+        {"time": 0.30, "flux": 0.9990},
+        {"time": 0.305, "flux": 0.9998},
+        {"time": 0.32, "flux": 1.0000},
+        {"time": 0.35, "flux": 1.0001},
+        {"time": 0.40, "flux": 1.0000},
+        {"time": 0.50, "flux": 1.0000}
+      ]
+    },
+    "d": {
+      "period_days": 4.05,
+      "depth_ppm": 3670,
+      "duration_hours": 0.74,
+      "data": [
+        {"time": -0.60, "flux": 1.0000},
+        {"time": -0.50, "flux": 1.0001},
+        {"time": -0.40, "flux": 0.9999},
+        {"time": -0.38, "flux": 0.9995},
+        {"time": -0.37, "flux": 0.9980},
+        {"time": -0.35, "flux": 0.9965},
+        {"time": -0.30, "flux": 0.9963},
+        {"time": -0.20, "flux": 0.9963},
+        {"time": -0.10, "flux": 0.9964},
+        {"time": 0.00, "flux": 0.9963},
+        {"time": 0.10, "flux": 0.9964},
+        {"time": 0.20, "flux": 0.9963},
+        {"time": 0.30, "flux": 0.9965},
+        {"time": 0.35, "flux": 0.9980},
+        {"time": 0.37, "flux": 0.9995},
+        {"time": 0.38, "flux": 0.9999},
+        {"time": 0.40, "flux": 1.0001},
+        {"time": 0.50, "flux": 1.0000},
+        {"time": 0.60, "flux": 1.0000}
+      ]
+    },
+    "e": {
+      "period_days": 6.10,
+      "depth_ppm": 4800,
+      "duration_hours": 0.91,
+      "data": [
+        {"time": -0.70, "flux": 1.0000},
+        {"time": -0.55, "flux": 1.0001},
+        {"time": -0.48, "flux": 0.9998},
+        {"time": -0.46, "flux": 0.9985},
+        {"time": -0.45, "flux": 0.9960},
+        {"time": -0.40, "flux": 0.9952},
+        {"time": -0.30, "flux": 0.9952},
+        {"time": -0.20, "flux": 0.9953},
+        {"time": -0.10, "flux": 0.9952},
+        {"time": 0.00, "flux": 0.9952},
+        {"time": 0.10, "flux": 0.9952},
+        {"time": 0.20, "flux": 0.9953},
+        {"time": 0.30, "flux": 0.9952},
+        {"time": 0.40, "flux": 0.9960},
+        {"time": 0.45, "flux": 0.9985},
+        {"time": 0.46, "flux": 0.9998},
+        {"time": 0.48, "flux": 1.0001},
+        {"time": 0.55, "flux": 1.0000},
+        {"time": 0.70, "flux": 1.0000}
+      ]
+    }
+  }
+}
