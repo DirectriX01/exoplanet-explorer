@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, JetBrains_Mono } from "next/font/google";
+import { displayFont, sansFont, monoFont } from "@/lib/fonts";
 import Navbar from "@/components/layout/Navbar";
 import "./globals.css";
-
-const spaceGrotesk = Space_Grotesk({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const jetbrainsMono = JetBrains_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Exoplanet Explorer — How We Find Worlds Beyond Our Own",
@@ -36,9 +26,9 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${spaceGrotesk.variable} ${jetbrainsMono.variable} h-full antialiased`}
+      className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">
+      <body className="min-h-full flex flex-col bg-[var(--ink)] text-[var(--paper)]">
         <Navbar />
         <main className="flex-1">{children}</main>
       </body>
