@@ -2,6 +2,8 @@
 
 import { useMemo, useRef, useEffect, useState } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
+import { EffectComposer, Bloom, Vignette, Noise } from "@react-three/postprocessing";
+import { BlendFunction } from "postprocessing";
 import * as THREE from "three";
 
 type StarLayerProps = {
@@ -120,21 +122,62 @@ function useAdaptiveCounts() {
   return counts;
 }
 
+function useEnvironmentTuning() {
+  const [tuning, setTuning] = useState({
+    effects: true,
+    noise: true,
+    bloomIntensity: 0.65,
+    dpr: [1, 1.5] as [number, number],
+  });
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    // navigator.deviceMemory is non-standard but widely available
+    const mem = (navigator as Navigator & { deviceMemory?: number }).deviceMemory ?? 8;
+    const smallScreen = window.innerWidth < 768;
+    setTuning({
+      effects: !reduced,
+      noise: !reduced && mem >= 4,
+      bloomIntensity: smallScreen ? 0.45 : 0.65,
+      dpr: [1, Math.min(window.devicePixelRatio || 1, smallScreen ? 1.25 : 1.5)],
+    });
+  }, []);
+  return tuning;
+}
+
 export default function Backdrop() {
   const counts = useAdaptiveCounts();
+  const tuning = useEnvironmentTuning();
 
   return (
     <div className="fixed inset-0 -z-10">
       <Canvas
         camera={{ position: [0, 0, 18], fov: 60 }}
         gl={{ antialias: false, alpha: false, powerPreference: "high-performance" }}
-        dpr={[1, 1.5]}
+        dpr={tuning.dpr}
         style={{ background: "#07060d" }}
       >
         <Nebula />
         <StarLayer count={counts.dust} spread={140} size={0.06} speed={0.005} color="#f4ecdc" />
         <StarLayer count={counts.mid} spread={90} size={0.11} speed={0.012} color="#ffe6c8" />
         <StarLayer count={counts.bright} spread={55} size={0.22} speed={0.02} color="#ffffff" />
+
+        {tuning.effects && (
+          <EffectComposer multisampling={0}>
+            <Bloom
+              intensity={tuning.bloomIntensity}
+              luminanceThreshold={0.78}
+              luminanceSmoothing={0.22}
+              mipmapBlur
+            />
+            <Vignette eskil={false} offset={0.15} darkness={0.78} />
+            {tuning.noise ? (
+              <Noise opacity={0.04} blendFunction={BlendFunction.OVERLAY} />
+            ) : (
+              <></>
+            )}
+          </EffectComposer>
+        )}
       </Canvas>
     </div>
   );
