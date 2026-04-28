@@ -1,15 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { methods } from "@/data/methods";
-
-const StarfieldBackground = dynamic(
-  () => import("@/components/layout/StarfieldBackground"),
-  { ssr: false }
-);
 
 function Counter({ end, label }: { end: number; label: string }) {
   const ref = useRef(null);
@@ -51,8 +45,6 @@ const methodIcons: Record<string, string> = {
 export default function Home() {
   return (
     <>
-      <StarfieldBackground />
-
       {/* Hero */}
       <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-16">
         <motion.div
