@@ -17,7 +17,16 @@
     "starMassSun": 0.089,
     "distanceParsecs": 12.43,
     "description": "The innermost planet of the remarkable TRAPPIST-1 system — seven Earth-sized worlds orbiting an ultra-cool red dwarf star just 40 light-years away. Discovered using the transit method, this system is one of the best places to search for signs of life beyond Earth.",
-    "featured": true
+    "featured": true,
+    "discoveryStory": {
+      "paragraphs": [
+        "On May 2, 2016, Michaël Gillon's team at the University of Liège announced that the small 60 cm TRAPPIST telescope in Chile had caught a tiny, repeating dimming in the light of an inconspicuous ultra-cool dwarf star — three Earth-sized planets transiting roughly every 1.5, 2.4, and 4.0 days.",
+        "Follow-up with NASA's Spitzer Space Telescope over the next year stitched together what had looked like noise on individual nights into a precise clockwork: not three planets but seven, all rocky, all comparable in size to Earth. Three of them sit in the temperate band where liquid water could exist on the surface.",
+        "TRAPPIST-1 b is the innermost — too hot for water, scorched by its red dwarf — but it was the first dip in the light curve that gave the system away. JWST has since begun reading the atmospheres of the outer planets directly, looking for the molecules of habitability."
+      ],
+      "date": "2016-05-02",
+      "people": ["Michaël Gillon", "Emmanuël Jehin", "Spitzer Space Telescope team"]
+    }
   },
   {
     "slug": "trappist-1-d",
@@ -75,7 +84,16 @@
     "starMassSun": 1.11,
     "distanceParsecs": 15.61,
     "description": "The planet that changed everything. In 1995, Michel Mayor and Didier Queloz detected this 'hot Jupiter' orbiting its sun-like star every 4.2 days — the first confirmed exoplanet around a main-sequence star. Their discovery earned the 2019 Nobel Prize in Physics.",
-    "featured": true
+    "featured": true,
+    "discoveryStory": {
+      "paragraphs": [
+        "Through the autumn of 1994, Michel Mayor and his doctoral student Didier Queloz pointed the ELODIE spectrograph at the Haute-Provence Observatory at a star almost identical to our Sun. They were looking for the tiny, periodic Doppler shifts a planet would impose on its host's light.",
+        "What they found, and announced at a Florence conference in October 1995, was impossible by every assumption of the time: a Jupiter-mass planet whipping around its star every 4.23 days, closer than Mercury is to our Sun. No model of planet formation predicted such a thing.",
+        "51 Pegasi b was the first exoplanet ever confirmed around a Sun-like star. It rewrote planet formation theory and won Mayor and Queloz the 2019 Nobel Prize in Physics. The radial-velocity method they pioneered has since uncovered more than a thousand worlds."
+      ],
+      "date": "1995-10-06",
+      "people": ["Michel Mayor", "Didier Queloz"]
+    }
   },
   {
     "slug": "hr-8799-b",
@@ -95,7 +113,16 @@
     "starMassSun": 1.56,
     "distanceParsecs": 39.4,
     "description": "Part of the iconic HR 8799 system — the first multi-planet system directly photographed. Four massive planets orbit this young star, visible in infrared images as glowing dots. Recent JWST observations revealed CO₂ in their atmospheres.",
-    "featured": true
+    "featured": true,
+    "discoveryStory": {
+      "paragraphs": [
+        "In November 2008, Christian Marois and a team using adaptive optics on the Keck and Gemini telescopes published infrared images showing not one but three glowing points of light circling the young A-type star HR 8799. A fourth, inner planet was added in 2010.",
+        "These weren't transits or wobbles inferred from starlight. These were photons coming from the planets themselves — young, hot worlds still glowing from the heat of their formation, faint enough that a coronagraph and decades of adaptive-optics work were required to separate them from the glare of their star.",
+        "HR 8799 became the first multi-planet system ever directly imaged. Recent JWST observations have decomposed the spectra of its four giant planets, finding water, carbon dioxide, and clouds — atmospheric chemistry read across 130 light-years."
+      ],
+      "date": "2008-11-13",
+      "people": ["Christian Marois", "Bruce Macintosh", "Travis Barman"]
+    }
   },
   {
     "slug": "hr-8799-c",
@@ -134,7 +161,16 @@
     "starMassSun": 0.22,
     "distanceParsecs": 6500,
     "description": "A frozen super-Earth discovered through gravitational microlensing — one of the coldest and most distant exoplanets known. At 50 Kelvin (-223°C), it's a frigid world orbiting a red dwarf 21,000 light-years away, demonstrating that microlensing can find planets conventional methods miss.",
-    "featured": true
+    "featured": true,
+    "discoveryStory": {
+      "paragraphs": [
+        "In July 2005, the OGLE survey detected a star in the bulge of the Milky Way brightening — a routine microlensing event, where a foreground star's gravity acts as a temporary magnifying glass on a more distant one. Then, riding on top of the smooth magnification curve, came a tiny, brief spike.",
+        "That spike was the signature of a planet orbiting the lensing star. Jean-Philippe Beaulieu's PLANET collaboration, alerted by OGLE in time, caught the anomaly across telescopes from Chile to Tasmania. Modelling it gave a planet of about five Earth masses orbiting 2.6 AU from a red dwarf.",
+        "OGLE-2005-BLG-390L b sits roughly 21,000 light-years away — one of the most distant exoplanets known, and at 50 Kelvin one of the coldest. Microlensing is the only technique that could have found it; its star is far too dim to study by any other means."
+      ],
+      "date": "2006-01-26",
+      "people": ["Jean-Philippe Beaulieu", "OGLE collaboration", "PLANET collaboration"]
+    }
   },
   {
     "slug": "hd-176051-b",
@@ -154,7 +190,16 @@
     "starMassSun": 1.07,
     "distanceParsecs": 14.98,
     "description": "One of only a handful of exoplanets detected via astrometry — the technique of measuring tiny shifts in a star's position caused by an orbiting planet. This Jupiter-mass world was found by tracking its star's wobble with extraordinary precision over many years.",
-    "featured": true
+    "featured": true,
+    "discoveryStory": {
+      "paragraphs": [
+        "Astrometry — measuring a star's tiny side-to-side wobble as an unseen planet tugs it through space — is the oldest exoplanet detection technique in concept and the hardest in practice. The wobbles are microarcseconds; for decades, every claimed astrometric detection had eventually been retracted.",
+        "In 2010, Matthew Muterspaugh's team at the Palomar Testbed Interferometer reported a Jupiter-mass companion to the binary HD 176051, found by tracking the relative motion of its two stars across years of interferometric observations.",
+        "HD 176051 b is one of a handful of planets ever confirmed by astrometry. The technique is poised for a renaissance: ESA's Gaia mission, mapping the positions and motions of two billion stars, is expected to unveil thousands of new planets through their gravitational signatures over the next decade."
+      ],
+      "date": "2010-04-19",
+      "people": ["Matthew Muterspaugh", "Palomar Testbed Interferometer team"]
+    }
   },
   {
     "slug": "kepler-22-b",

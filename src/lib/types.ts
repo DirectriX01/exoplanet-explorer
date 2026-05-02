@@ -17,6 +17,13 @@ export interface Exoplanet {
   distanceParsecs: number | null;
   description?: string;
   featured?: boolean;
+  discoveryStory?: DiscoveryStory;
+}
+
+export interface DiscoveryStory {
+  paragraphs: string[];
+  date?: string;
+  people?: string[];
 }
 
 export type DiscoveryMethod =
