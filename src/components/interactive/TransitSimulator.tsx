@@ -3,121 +3,118 @@
 import { useState, useMemo, useCallback } from "react";
 import dynamic from "next/dynamic";
 import LightCurve from "@/components/charts/LightCurve";
+import trappist1Data from "@/data/trappist1-lightcurve.json";
+import { Slider, LabPanel, Readout } from "./LabControls";
 
-const TransitScene = dynamic(
-  () => import("@/components/three/TransitScene"),
-  { ssr: false, loading: () => <div className="w-full aspect-square max-w-md bg-white/5 rounded-2xl animate-pulse" /> }
-);
+const TransitScene = dynamic(() => import("@/components/three/TransitScene"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full aspect-square max-w-md bg-[var(--ink-2)] rounded-lg animate-pulse" />
+  ),
+});
+
+const STAR_RADIUS = 1.5;
+const TRAPPIST_B_DEPTH = 0.0072; // ≈7200 ppm in normalized flux
+
+function generateLightCurve(radius: number) {
+  const points: { time: number; flux: number }[] = [];
+  const transitDepth = (radius * radius) / (STAR_RADIUS * STAR_RADIUS);
+  const ingressDuration = 0.3;
+
+  for (let t = -0.8; t <= 0.8; t += 0.02) {
+    let flux = 1.0;
+    const absT = Math.abs(t);
+    if (absT < ingressDuration - 0.05) {
+      flux = 1.0 - transitDepth;
+    } else if (absT < ingressDuration + 0.05) {
+      const frac = (absT - (ingressDuration - 0.05)) / 0.1;
+      flux = 1.0 - transitDepth * (1 - frac);
+    }
+    flux += (Math.random() - 0.5) * 0.0008;
+    points.push({ time: t, flux });
+  }
+  return points;
+}
 
 export default function TransitSimulator() {
   const [planetRadius, setPlanetRadius] = useState(0.15);
+  const lightCurveData = useMemo(() => generateLightCurve(planetRadius), [planetRadius]);
+  const depthPct = ((planetRadius * planetRadius) / (STAR_RADIUS * STAR_RADIUS)) * 100;
+  const sizeVsTrappist = ((planetRadius * planetRadius) / (STAR_RADIUS * STAR_RADIUS)) / TRAPPIST_B_DEPTH;
+  const matchesTrappist = Math.abs(sizeVsTrappist - 1) < 0.12;
 
-  const generateLightCurve = useCallback((radius: number) => {
-    const points = [];
-    const starRadius = 1.5;
-    const transitDepth = (radius * radius) / (starRadius * starRadius);
-    const ingressDuration = 0.3;
-
-    for (let t = -0.8; t <= 0.8; t += 0.02) {
-      let flux = 1.0;
-      const absT = Math.abs(t);
-
-      if (absT < ingressDuration - 0.05) {
-        flux = 1.0 - transitDepth;
-      } else if (absT < ingressDuration + 0.05) {
-        const frac = (absT - (ingressDuration - 0.05)) / 0.1;
-        flux = 1.0 - transitDepth * (1 - frac);
-      }
-
-      flux += (Math.random() - 0.5) * 0.001;
-      points.push({ time: t, flux });
-    }
-    return points;
-  }, []);
-
-  const lightCurveData = useMemo(
-    () => generateLightCurve(planetRadius),
-    [planetRadius, generateLightCurve]
-  );
-
-  const depthPercent = ((planetRadius * planetRadius) / (1.5 * 1.5) * 100).toFixed(2);
+  const setEarth = useCallback(() => setPlanetRadius(0.15), []);
+  const setTrappistB = useCallback(() => setPlanetRadius(STAR_RADIUS * Math.sqrt(TRAPPIST_B_DEPTH)), []);
+  const setJupiter = useCallback(() => setPlanetRadius(0.5), []);
 
   return (
-    <div className="space-y-6">
-      <div className="rounded-2xl border border-white/5 bg-[#0a0520]/40 p-6">
-        <h3 className="text-lg font-semibold text-white mb-2">
-          Interactive Transit Simulator
-        </h3>
-        <p className="text-sm text-slate-400 mb-6">
-          Adjust the planet size and watch how it affects the light curve.
-          A larger planet blocks more starlight, creating a deeper dip.
+    <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-center">
+      <div className="flex flex-col items-center">
+        <TransitScene planetRadius={planetRadius} />
+        <p className="mt-3 mono text-[0.68rem] uppercase tracking-[0.2em] text-[var(--mist)]">
+          Drag to rotate
         </p>
+      </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
-          {/* 3D Scene */}
-          <div className="flex flex-col items-center">
-            <TransitScene planetRadius={planetRadius} />
-            <div className="mt-4 text-center">
-              <p className="text-xs text-slate-500">
-                Drag to rotate the view
-              </p>
-            </div>
-          </div>
+      <LabPanel title="The Lab · drag, watch, compare">
+        <Slider
+          label="Planet radius (relative)"
+          min={0.05}
+          max={0.5}
+          step={0.005}
+          value={planetRadius}
+          onChange={setPlanetRadius}
+          format={(v) => `${(v / 0.15).toFixed(2)}× Earth`}
+        />
 
-          {/* Controls + Chart */}
-          <div className="space-y-6">
-            <div>
-              <div className="flex items-center justify-between mb-2">
-                <label className="text-sm text-slate-300">
-                  Planet Radius
-                </label>
-                <span className="text-sm font-mono text-amber-400">
-                  {(planetRadius / 0.15).toFixed(1)}x Earth
-                </span>
-              </div>
-              <input
-                type="range"
-                min="0.05"
-                max="0.5"
-                step="0.01"
-                value={planetRadius}
-                onChange={(e) => setPlanetRadius(parseFloat(e.target.value))}
-                className="w-full h-1.5 bg-white/10 rounded-full appearance-none cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4 [&::-webkit-slider-thumb]:bg-amber-400 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:cursor-pointer"
-              />
-              <div className="flex justify-between text-[10px] text-slate-500 mt-1">
-                <span>Small (Earth-like)</span>
-                <span>Large (Jupiter-like)</span>
-              </div>
-            </div>
+        <div className="flex gap-2 -mt-1">
+          {[
+            { label: "Earth", action: setEarth },
+            { label: "TRAPPIST-1 b", action: setTrappistB },
+            { label: "Jupiter", action: setJupiter },
+          ].map((p) => (
+            <button
+              key={p.label}
+              onClick={p.action}
+              className="mono text-[0.65rem] uppercase tracking-wider text-[var(--mist)] hover:text-[var(--ember)] transition-colors border border-white/[0.06] hover:border-[var(--ember)]/50 rounded-full px-3 py-1.5"
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
 
-            <div className="grid grid-cols-2 gap-4">
-              <div className="rounded-xl bg-white/5 p-3">
-                <div className="text-[10px] text-slate-500 uppercase tracking-wider">
-                  Transit Depth
-                </div>
-                <div className="text-lg font-mono font-semibold text-amber-400">
-                  {depthPercent}%
-                </div>
-              </div>
-              <div className="rounded-xl bg-white/5 p-3">
-                <div className="text-[10px] text-slate-500 uppercase tracking-wider">
-                  Size Ratio
-                </div>
-                <div className="text-lg font-mono font-semibold text-white">
-                  {(planetRadius / 1.5 * 100).toFixed(1)}%
-                </div>
-                <div className="text-[10px] text-slate-500">of star</div>
-              </div>
-            </div>
+        <div className="pt-4 border-t border-white/[0.05] space-y-2.5">
+          <Readout label="Transit depth" value={`${depthPct.toFixed(2)} %`} emphasis />
+          <Readout label="Size vs star" value={`${(planetRadius / STAR_RADIUS * 100).toFixed(1)} %`} />
+          <Readout
+            label="vs TRAPPIST-1 b"
+            value={
+              matchesTrappist
+                ? "≈ MATCH"
+                : sizeVsTrappist > 1
+                  ? `${sizeVsTrappist.toFixed(1)}× deeper`
+                  : `${(1 / sizeVsTrappist).toFixed(1)}× shallower`
+            }
+            emphasis={matchesTrappist}
+          />
+        </div>
 
+        <div className="pt-2">
+          <LightCurve
+            data={lightCurveData}
+            label={`Yours — depth ${depthPct.toFixed(2)}% · ghost overlay: TRAPPIST-1 b`}
+            color="var(--ember)"
+          />
+          {/* Ghost overlay: faint trace of real TRAPPIST-1 b */}
+          <div className="-mt-[300px] pointer-events-none opacity-30">
             <LightCurve
-              data={lightCurveData}
-              label={`Simulated Light Curve (depth: ${depthPercent}%)`}
-              color="#f59e0b"
+              data={trappist1Data.planets.b.data}
+              label=""
+              color="#f4ecdc"
             />
           </div>
         </div>
-      </div>
+      </LabPanel>
     </div>
   );
 }
