@@ -1,195 +1,217 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useState, useMemo } from "react";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { motion } from "framer-motion";
+import CinemaShell, { useCinemaProgress } from "@/components/cinema/CinemaShell";
+import Act from "@/components/cinema/Act";
 import LightCurve from "@/components/charts/LightCurve";
-import { getMethodBySlug } from "@/data/methods";
+import { TransitSceneContent } from "@/components/three/TransitScene";
+import { Slider, LabPanel, Readout } from "@/components/interactive/LabControls";
 import trappist1Data from "@/data/trappist1-lightcurve.json";
+import { rangeProgress } from "@/lib/scroll";
 
-const TransitSimulator = dynamic(
-  () => import("@/components/interactive/TransitSimulator"),
-  { ssr: false }
-);
+const Backdrop = dynamic(() => import("@/components/cinema/Backdrop"));
+
+const STAR_RADIUS = 1.5;
+const TRAPPIST_B_DEPTH = 0.0072;
+
+/** Bridges scroll progress to scene props. */
+function SceneStage({ planetRadius }: { planetRadius: number }) {
+  const progress = useCinemaProgress();
+  // During Act III (after 66%), slow the orbit so the user can study it
+  const speed = progress < 0.66 ? 0.6 : 0.25;
+  return (
+    <TransitSceneContent
+      planetRadius={planetRadius}
+      speed={speed}
+      progress={progress}
+    />
+  );
+}
+
+function generateLightCurve(radius: number) {
+  const points: { time: number; flux: number }[] = [];
+  const depth = (radius * radius) / (STAR_RADIUS * STAR_RADIUS);
+  const ingress = 0.3;
+  for (let t = -0.8; t <= 0.8; t += 0.02) {
+    let f = 1.0;
+    const a = Math.abs(t);
+    if (a < ingress - 0.05) f = 1 - depth;
+    else if (a < ingress + 0.05) f = 1 - depth * (1 - (a - (ingress - 0.05)) / 0.1);
+    points.push({ time: t, flux: f + (Math.random() - 0.5) * 0.0008 });
+  }
+  return points;
+}
 
 export default function TransitPage() {
-  const method = getMethodBySlug("transit")!;
+  const [planetRadius, setPlanetRadius] = useState(0.15);
+  const labCurve = useMemo(() => generateLightCurve(planetRadius), [planetRadius]);
+  const depthPct = ((planetRadius * planetRadius) / (STAR_RADIUS * STAR_RADIUS)) * 100;
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6">
-      <div className="mx-auto max-w-5xl">
-        {/* Hero */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
-          <Link
-            href="/methods"
-            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-white transition-colors mb-8"
+    <article className="relative">
+      {/* HERO */}
+      <section className="relative min-h-[100svh] flex items-center px-5 sm:px-10 md:px-16">
+        <Backdrop />
+        <div className="relative max-w-4xl">
+          <motion.p
+            className="mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            &larr; All Methods
-          </Link>
-
-          <div
-            className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium mb-4"
-            style={{
-              background: `${method.color}15`,
-              color: method.color,
-              border: `1px solid ${method.color}30`,
-            }}
+            § Method 01 — The Transit
+          </motion.p>
+          <motion.h1
+            className="display-italic text-[var(--paper)] leading-[0.92] tracking-tight mb-8"
+            style={{ fontSize: "var(--t-hero)" }}
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           >
-            {method.icon} {method.planetsFound.toLocaleString()} planets found
-          </div>
+            How starlight tells us
+            <br />
+            a world is there
+          </motion.h1>
+          <motion.p
+            className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
+            style={{ fontSize: "1.1rem" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 0.4 }}
+          >
+            More than four thousand worlds have been found by watching their stars
+            blink — a periodic, predictable dimming that happens only when a planet
+            crosses our line of sight. Scroll through the geometry.
+          </motion.p>
+          <motion.div
+            className="mt-12 mono text-[0.7rem] uppercase tracking-[0.2em] text-[var(--mist)]"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 1, delay: 1.4 }}
+          >
+            ↓ scroll
+          </motion.div>
+        </div>
+      </section>
 
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {method.name}
-          </h1>
-          <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
-            {method.description}
-          </p>
-        </motion.div>
-
-        {/* How it works */}
-        <motion.section
-          className="mt-16 rounded-2xl border border-white/5 bg-[#0a0520]/40 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl font-semibold text-white mb-4">
-            How It Works
-          </h2>
-          <p className="text-slate-400 leading-relaxed max-w-3xl">
-            {method.howItWorks}
-          </p>
-
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-3 gap-4">
-            {[
-              {
-                step: "1",
-                title: "Planet orbits its star",
-                desc: "Every exoplanet traces an orbit around its host star. If the orbit is aligned with our line of sight, the planet will periodically pass between us and the star.",
-              },
-              {
-                step: "2",
-                title: "Starlight dims during transit",
-                desc: "As the planet crosses the star's face, it blocks a fraction of the starlight. The amount blocked depends on the planet's size relative to the star.",
-              },
-              {
-                step: "3",
-                title: "Pattern repeats each orbit",
-                desc: "By detecting repeating dips at regular intervals, scientists confirm the planet's existence and measure its orbital period and size.",
-              },
-            ].map((item) => (
-              <div
-                key={item.step}
-                className="rounded-xl bg-white/5 p-5"
-              >
-                <div
-                  className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold mb-3"
-                  style={{
-                    background: `${method.color}20`,
-                    color: method.color,
-                  }}
-                >
-                  {item.step}
-                </div>
-                <h3 className="text-sm font-semibold text-white mb-1">
-                  {item.title}
-                </h3>
-                <p className="text-xs text-slate-400 leading-relaxed">
-                  {item.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-        </motion.section>
-
-        {/* Real Data */}
-        <motion.section
-          className="mt-12 rounded-2xl border border-white/5 bg-[#0a0520]/40 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl font-semibold text-white mb-2">
-            Real Data: TRAPPIST-1 System
-          </h2>
-          <p className="text-sm text-slate-400 mb-6">
-            Light curves from the TRAPPIST-1 system showing transits of three
-            of its seven Earth-sized planets. Each planet creates a different
-            depth of dip based on its size.
-          </p>
-
-          <div className="space-y-6">
-            {(["b", "d", "e"] as const).map((planet) => {
-              const pData = trappist1Data.planets[planet];
-              return (
-                <div key={planet}>
-                  <LightCurve
-                    data={pData.data}
-                    label={`TRAPPIST-1 ${planet} (depth: ${pData.depth_ppm} ppm, period: ${pData.period_days} days)`}
-                    color={
-                      planet === "b"
-                        ? "#f59e0b"
-                        : planet === "d"
-                          ? "#fb923c"
-                          : "#f97316"
-                    }
-                  />
-                </div>
-              );
-            })}
-          </div>
-        </motion.section>
-
-        {/* Interactive */}
-        <motion.section
-          className="mt-12"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <TransitSimulator />
-        </motion.section>
-
-        {/* Discovery Story */}
-        <motion.section
-          className="mt-12 rounded-2xl border border-amber-500/10 bg-amber-500/5 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-xs font-mono uppercase tracking-wider text-amber-500 mb-3">
-            Discovery Story
-          </p>
-          <h2 className="text-2xl font-semibold text-white mb-4">
-            The TRAPPIST-1 System
-          </h2>
-          <div className="text-slate-300 space-y-3 leading-relaxed">
-            <p>
-              In 2016, astronomers using the TRAPPIST telescope in Chile
-              discovered three Earth-sized planets orbiting an ultra-cool red
-              dwarf star just 40 light-years away. Follow-up observations
-              with NASA&apos;s Spitzer Space Telescope revealed four more — making
-              it the largest system of Earth-sized worlds ever found.
+      {/* THE CINEMA */}
+      <CinemaShell
+        height="380svh"
+        cameraPosition={[0, 1.2, 6]}
+        cameraFov={50}
+        scene={<SceneStage planetRadius={planetRadius} />}
+      >
+        <Act start={0.0} end={0.34} position="right">
+          <div className="rounded-2xl bg-[var(--ink)]/65 backdrop-blur-md p-6 sm:p-8 border border-white/[0.04]">
+            <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-4">
+              Act I — The Geometry
             </p>
-            <p>
-              Three of the seven planets orbit in the habitable zone, where
-              liquid water could exist. The system has become a prime target
-              for the James Webb Space Telescope, which is now characterizing
-              their atmospheres for signs of habitability.
+            <h2
+              className="display text-[var(--paper)] leading-[1.05] mb-4"
+              style={{ fontSize: "var(--t-section)" }}
+            >
+              A planet, an orbit, a line of sight.
+            </h2>
+            <p className="text-[var(--paper-dim)] leading-relaxed">
+              Every planet traces an orbit around its star. If that orbit happens
+              to be aligned with us — edge-on — the planet sweeps in front of the
+              star on every pass.
             </p>
           </div>
+        </Act>
+
+        <Act start={0.34} end={0.66} position="bottom">
+          <div className="rounded-2xl bg-[var(--ink)]/65 backdrop-blur-md p-6 sm:p-8 border border-white/[0.04] max-w-3xl mx-auto">
+            <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-4">
+              Act II — The Signal
+            </p>
+            <h2
+              className="display text-[var(--paper)] leading-[1.05] mb-4"
+              style={{ fontSize: "var(--t-section)" }}
+            >
+              The star dims, by a precise amount.
+            </h2>
+            <p className="text-[var(--paper-dim)] leading-relaxed mb-6">
+              The depth of the dip tells you the planet's size relative to the
+              star. Spitzer captured this signal from TRAPPIST-1 b — about 0.72%,
+              repeating every 1.5 days.
+            </p>
+            <LightCurve
+              data={trappist1Data.planets.b.data}
+              label="TRAPPIST-1 b · real Spitzer photometry"
+              color="var(--ember)"
+            />
+          </div>
+        </Act>
+
+        <Act start={0.66} end={1.0} position="right" interactive>
+          <LabPanel title="Act III — The Lab" className="w-[88vw] sm:w-[420px]">
+            <Slider
+              label="Planet radius"
+              min={0.05}
+              max={0.5}
+              step={0.005}
+              value={planetRadius}
+              onChange={setPlanetRadius}
+              format={(v) => `${(v / 0.15).toFixed(2)}× Earth`}
+            />
+            <div className="space-y-2.5">
+              <Readout label="Transit depth" value={`${depthPct.toFixed(2)} %`} emphasis />
+              <Readout
+                label="vs TRAPPIST-1 b"
+                value={
+                  Math.abs(depthPct / (TRAPPIST_B_DEPTH * 100) - 1) < 0.12
+                    ? "≈ MATCH"
+                    : depthPct / (TRAPPIST_B_DEPTH * 100) > 1
+                      ? `${(depthPct / (TRAPPIST_B_DEPTH * 100)).toFixed(1)}× deeper`
+                      : `${(TRAPPIST_B_DEPTH * 100 / depthPct).toFixed(1)}× shallower`
+                }
+              />
+            </div>
+            <LightCurve
+              data={labCurve}
+              label="Your simulated transit"
+              color="var(--ember)"
+            />
+          </LabPanel>
+        </Act>
+      </CinemaShell>
+
+      {/* DISCOVERY STORY (article) */}
+      <section className="relative py-28 sm:py-36 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
+        <div className="max-w-[64ch] mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
+            § Discovery Story
+          </p>
+          <h2
+            className="display-italic text-[var(--paper)] leading-[1.05] mb-10"
+            style={{ fontSize: "var(--t-display)" }}
+          >
+            From a 1999 hint to seven Earth-sized worlds.
+          </h2>
+          <p
+            className="drop-cap text-[var(--paper)]"
+            style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
+          >
+            The first transiting exoplanet was caught in 1999 by David Charbonneau and Greg Henry — a gas giant called HD 209458 b whose 1.7% dimming was visible from a small backyard-class telescope. It was proof of concept: an Earth-sized telescope could find Earth-sized worlds if the geometry cooperated.
+          </p>
+          <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
+            NASA's Kepler mission, launched 2009, stared at a single patch of sky for four years and watched 150,000 stars at once. It returned thousands of confirmed planets and pushed the technique to its physical limit — picking out Earth-sized worlds in habitable orbits around Sun-like stars.
+          </p>
+          <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
+            The TRAPPIST-1 system, found in 2016 by a small 60 cm telescope in Chile, remains the cleanest demonstration of what transits can do: seven rocky planets, three in the habitable zone, all detected through repeating dips in the light of a single dim red dwarf 40 light-years away.
+          </p>
           <Link
             href="/catalog/trappist-1-b"
-            className="mt-6 inline-flex items-center gap-2 text-sm text-amber-400 hover:text-amber-300 transition-colors"
+            className="mt-12 inline-flex items-center gap-2 ember-link mono text-[0.78rem] uppercase tracking-wider"
           >
-            View TRAPPIST-1 b in catalog &rarr;
+            See TRAPPIST-1 b →
           </Link>
-        </motion.section>
-      </div>
-    </div>
+        </div>
+      </section>
+    </article>
   );
 }
