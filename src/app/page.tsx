@@ -8,28 +8,19 @@ import { methods } from "@/data/methods";
 function Counter({ end, label }: { end: number; label: string }) {
   const ref = useRef(null);
   const inView = useInView(ref, { once: true });
-
   return (
     <div ref={ref} className="text-center">
       <motion.div
-        className="text-4xl md:text-5xl font-bold text-white font-mono"
+        className="mono text-4xl md:text-5xl text-[var(--paper)] tabular-nums tracking-tight"
         initial={{ opacity: 0 }}
         animate={inView ? { opacity: 1 } : {}}
-        transition={{ duration: 0.5 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
       >
-        {inView ? (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.3 }}
-          >
-            {end.toLocaleString()}+
-          </motion.span>
-        ) : (
-          "0"
-        )}
+        {inView ? end.toLocaleString() : "0"}
       </motion.div>
-      <div className="mt-2 text-sm text-slate-400">{label}</div>
+      <div className="mt-2 mono text-[0.68rem] uppercase tracking-[0.22em] text-[var(--mist)]">
+        {label}
+      </div>
     </div>
   );
 }
@@ -45,161 +36,142 @@ const methodIcons: Record<string, string> = {
 export default function Home() {
   return (
     <>
-      {/* Hero */}
-      <section className="relative flex min-h-screen flex-col items-center justify-center px-6 pt-16">
+      {/* HERO */}
+      <section className="relative flex min-h-[100svh] flex-col items-center justify-center px-5 sm:px-10 md:px-16 pt-20">
         <motion.div
-          className="max-w-4xl text-center"
-          initial={{ opacity: 0, y: 40 }}
+          className="max-w-5xl text-center"
+          initial={{ opacity: 0, y: 24 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
         >
           <motion.p
-            className="mb-4 text-sm font-mono uppercase tracking-[0.3em] text-slate-400"
+            className="mb-6 mono text-[0.7rem] uppercase tracking-[0.32em] text-[var(--ember)]"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.3, duration: 0.8 }}
           >
-            An Interactive Journey
+            an interactive journey
           </motion.p>
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-bold leading-[1.05] tracking-tight">
-            <span className="text-white">How We Find </span>
-            <span className="text-gradient">Worlds</span>
+          <h1
+            className="display-italic text-[var(--paper)] leading-[0.92] tracking-tight"
+            style={{ fontSize: "var(--t-hero)" }}
+          >
+            How we find
             <br />
-            <span className="text-white">Beyond Our Own</span>
+            worlds beyond
+            <br />
+            our own.
           </h1>
           <motion.p
-            className="mx-auto mt-8 max-w-2xl text-lg md:text-xl text-slate-400 leading-relaxed"
+            className="mx-auto mt-10 max-w-2xl text-[var(--paper-dim)] leading-relaxed"
+            style={{ fontSize: "1.1rem" }}
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.6, duration: 0.8 }}
+            transition={{ delay: 0.7, duration: 0.9 }}
           >
-            Explore the ingenious methods scientists use to detect planets
-            orbiting distant stars — featuring real data from NASA&apos;s
-            greatest discoveries.
+            Five ingenious techniques. Real NASA data. A field guide to the
+            methods that revealed thousands of worlds — and the discoveries
+            that still feel like science fiction.
           </motion.p>
           <motion.div
-            className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4"
-            initial={{ opacity: 0, y: 20 }}
+            className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.6 }}
+            transition={{ delay: 1.0, duration: 0.8 }}
           >
             <Link
-              href="/methods"
-              className="group relative inline-flex h-12 items-center justify-center rounded-full bg-white px-8 text-sm font-semibold text-[#030014] transition-all hover:scale-105 hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]"
+              href="/methods/transit"
+              className="group relative inline-flex h-12 items-center justify-center rounded-full bg-[var(--ember)] px-7 mono text-[0.72rem] uppercase tracking-[0.22em] text-[var(--ink)] transition-transform hover:scale-[1.04]"
+              style={{ boxShadow: "0 0 40px var(--ember-glow)" }}
             >
-              Explore Methods
-              <span className="ml-2 transition-transform group-hover:translate-x-1">
-                &rarr;
-              </span>
+              Begin with Transit
+              <span className="ml-2 transition-transform group-hover:translate-x-1">→</span>
             </Link>
             <Link
               href="/catalog"
-              className="inline-flex h-12 items-center justify-center rounded-full border border-white/10 px-8 text-sm font-medium text-white transition-all hover:bg-white/5 hover:border-white/20"
+              className="inline-flex h-12 items-center justify-center rounded-full border border-white/[0.12] px-7 mono text-[0.72rem] uppercase tracking-[0.22em] text-[var(--paper)] hover:bg-white/[0.04] hover:border-white/[0.2] transition-colors"
             >
               Browse Catalog
             </Link>
           </motion.div>
         </motion.div>
 
-        {/* Scroll indicator */}
         <motion.div
-          className="absolute bottom-10 left-1/2 -translate-x-1/2"
+          className="absolute bottom-10 left-1/2 -translate-x-1/2 mono text-[0.65rem] uppercase tracking-[0.3em] text-[var(--mist)]"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.5, duration: 0.5 }}
+          transition={{ delay: 1.6, duration: 0.6 }}
         >
-          <motion.div
-            animate={{ y: [0, 8, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="flex flex-col items-center gap-2 text-slate-500 text-xs"
-          >
-            <span>Scroll to explore</span>
-            <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
-              <rect
-                x="1"
-                y="1"
-                width="14"
-                height="22"
-                rx="7"
-                stroke="currentColor"
-                strokeWidth="1.5"
-              />
-              <motion.circle
-                cx="8"
-                cy="8"
-                r="2"
-                fill="currentColor"
-                animate={{ cy: [8, 14, 8] }}
-                transition={{ duration: 2, repeat: Infinity }}
-              />
-            </svg>
-          </motion.div>
+          ↓ scroll
         </motion.div>
       </section>
 
-      {/* Stats */}
-      <section className="relative py-20 px-6">
-        <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-8">
-          <Counter end={5800} label="Confirmed Exoplanets" />
-          <Counter end={5} label="Detection Methods" />
-          <Counter end={4400} label="Planetary Systems" />
-          <Counter end={30} label="Years of Discovery" />
+      {/* STATS */}
+      <section className="relative py-24 px-5 sm:px-10 md:px-16">
+        <div className="mx-auto max-w-4xl grid grid-cols-2 md:grid-cols-4 gap-10">
+          <Counter end={5800} label="Confirmed worlds" />
+          <Counter end={5} label="Methods" />
+          <Counter end={4400} label="Planetary systems" />
+          <Counter end={30} label="Years of discovery" />
         </div>
       </section>
 
-      {/* Methods Preview */}
-      <section className="relative py-20 px-6">
+      {/* METHODS PREVIEW */}
+      <section className="relative py-24 px-5 sm:px-10 md:px-16">
         <div className="mx-auto max-w-6xl">
           <motion.div
-            className="text-center mb-16"
-            initial={{ opacity: 0, y: 20 }}
+            className="text-center mb-16 max-w-3xl mx-auto"
+            initial={{ opacity: 0, y: 16 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              Five Ways to Find a Planet
+            <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-5">
+              § The Five Methods
+            </p>
+            <h2
+              className="display-italic text-[var(--paper)] leading-[1.05]"
+              style={{ fontSize: "var(--t-display)" }}
+            >
+              Five ways to find a planet.
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">
-              Each method reveals different types of worlds using different
-              physics — from blocking starlight to bending spacetime.
+            <p className="mt-6 text-[var(--paper-dim)] leading-relaxed">
+              Each one exploits different physics — from blocking starlight to
+              bending spacetime — and reveals different kinds of worlds.
             </p>
           </motion.div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
             {methods.map((method, i) => (
               <motion.div
                 key={method.slug}
-                initial={{ opacity: 0, y: 30 }}
+                initial={{ opacity: 0, y: 24 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
+                transition={{ duration: 0.6, delay: i * 0.08 }}
               >
                 <Link
                   href={`/methods/${method.slug}`}
-                  className="group flex items-start gap-4 rounded-2xl border border-white/5 bg-[#0a0520]/40 backdrop-blur-sm p-5 transition-all duration-300 hover:border-white/10 hover:bg-[#0a0520]/60"
+                  className="group flex items-start gap-5 rounded-2xl border border-white/[0.05] bg-[var(--ink-2)]/55 backdrop-blur-sm p-5 transition-all duration-300 hover:border-[var(--ember)]/40 hover:bg-[var(--ink-2)]/85"
                 >
                   <div
-                    className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl text-xl"
+                    className="flex h-11 w-11 flex-shrink-0 items-center justify-center rounded-xl text-xl"
                     style={{
-                      background: `${method.color}15`,
+                      background: `${method.color}1a`,
                       color: method.color,
                     }}
                   >
                     {methodIcons[method.slug] || method.icon}
                   </div>
                   <div>
-                    <h3 className="font-semibold text-white text-sm group-hover:text-gradient transition-colors">
+                    <h3 className="display text-[1.05rem] text-[var(--paper)] group-hover:text-[var(--ember)] transition-colors">
                       {method.name}
                     </h3>
-                    <p className="mt-1 text-xs text-slate-500 leading-relaxed line-clamp-2">
+                    <p className="mt-1 text-[0.82rem] text-[var(--mist)] leading-relaxed line-clamp-2">
                       {method.description}
                     </p>
-                    <span
-                      className="mt-2 inline-block text-[10px] font-mono"
-                      style={{ color: method.color }}
-                    >
-                      {method.planetsFound.toLocaleString()} planets &rarr;
+                    <span className="mt-3 inline-block mono text-[0.65rem] uppercase tracking-wider text-[var(--paper-dim)]">
+                      {method.planetsFound.toLocaleString()} planets →
                     </span>
                   </div>
                 </Link>
@@ -209,56 +181,54 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Featured discovery */}
-      <section className="relative py-20 px-6">
-        <div className="mx-auto max-w-4xl text-center">
+      {/* FEATURED DISCOVERY */}
+      <section className="relative py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.04]">
+        <div className="mx-auto max-w-3xl text-center">
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
+            transition={{ duration: 0.8 }}
           >
-            <p className="text-sm font-mono uppercase tracking-[0.2em] text-amber-500 mb-4">
-              Featured Discovery
+            <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-5">
+              § Featured Discovery
             </p>
-            <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-              The TRAPPIST-1 System
+            <h2
+              className="display-italic text-[var(--paper)] leading-[1.05]"
+              style={{ fontSize: "var(--t-display)" }}
+            >
+              The TRAPPIST-1 System.
             </h2>
-            <p className="text-slate-400 max-w-2xl mx-auto leading-relaxed">
-              Seven Earth-sized worlds orbiting an ultra-cool red dwarf star
-              just 40 light-years away. Three of them sit in the habitable
-              zone where liquid water could exist. Discovered using the
-              transit method — by watching tiny dips in starlight as each
-              planet crosses in front of its star.
+            <p className="mt-8 text-[var(--paper-dim)] leading-relaxed max-w-2xl mx-auto">
+              Seven Earth-sized worlds orbiting an ultra-cool red dwarf just 40
+              light-years away. Three sit in the habitable zone. All found by
+              watching tiny, repeating dips in starlight.
             </p>
             <Link
               href="/methods/transit"
-              className="mt-8 inline-flex items-center gap-2 rounded-full border border-amber-500/20 bg-amber-500/5 px-6 py-3 text-sm font-medium text-amber-400 transition-all hover:bg-amber-500/10 hover:border-amber-500/30"
+              className="mt-10 inline-flex items-center gap-2 ember-link mono text-[0.78rem] uppercase tracking-wider"
             >
-              See how transits work
-              <span>&rarr;</span>
+              See how transits work →
             </Link>
           </motion.div>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="relative border-t border-white/5 py-12 px-6">
-        <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+      {/* FOOTER */}
+      <footer className="relative border-t border-white/[0.04] py-12 px-5 sm:px-10 md:px-16">
+        <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4 mono text-[0.7rem] uppercase tracking-wider text-[var(--mist)]">
           <p>
-            Data sourced from{" "}
+            Data from{" "}
             <a
               href="https://exoplanetarchive.ipac.caltech.edu/"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-slate-400 hover:text-white transition-colors"
+              className="ember-link"
             >
               NASA Exoplanet Archive
             </a>
           </p>
-          <p>
-            Built for education and wonder. Not affiliated with NASA.
-          </p>
+          <p>Built for wonder · Not affiliated with NASA</p>
         </div>
       </footer>
     </>
