@@ -1,15 +1,15 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
-import { OrbitControls, Line } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 
 function WobblingPositionStar() {
   const starRef = useRef<THREE.Mesh>(null);
   const trailPoints = useRef<[number, number, number][]>([[0, 0, 0]]);
-  const lineRef = useRef<{ setPoints: (pts: [number, number, number][]) => void }>(null);
-  const maxTrailLength = 200;
+  const maxTrailLength = 220;
 
   useFrame((state) => {
     const t = state.clock.elapsedTime * 0.3;
@@ -35,8 +35,13 @@ function WobblingPositionStar() {
   return (
     <group>
       <mesh ref={starRef}>
-        <sphereGeometry args={[0.2, 32, 32]} />
-        <meshBasicMaterial color="#c4b5fd" />
+        <sphereGeometry args={[0.22, 48, 48]} />
+        <meshStandardMaterial
+          color="#fff2e0"
+          emissive="#ffa64d"
+          emissiveIntensity={2.6}
+          toneMapped={false}
+        />
       </mesh>
       <TrailLine trailRef={trailPoints} />
     </group>
@@ -67,21 +72,31 @@ function TrailLine({
   );
 
   const material = useMemo(
-    () => new THREE.LineBasicMaterial({ color: "#8b5cf6", transparent: true, opacity: 0.5 }),
+    () =>
+      new THREE.LineBasicMaterial({
+        color: "#ff6b3d",
+        transparent: true,
+        opacity: 0.85,
+      }),
     []
   );
 
-  return <primitive ref={lineRef} object={new THREE.Line(initialGeometry, material)} />;
+  return (
+    <primitive
+      ref={lineRef}
+      object={new THREE.Line(initialGeometry, material)}
+    />
+  );
 }
 
 function BackgroundStars() {
   const positions = useMemo(() => {
     const stars: [number, number, number][] = [];
-    for (let i = 0; i < 50; i++) {
+    for (let i = 0; i < 80; i++) {
       stars.push([
-        (Math.random() - 0.5) * 10,
-        (Math.random() - 0.5) * 8,
-        -2 + Math.random() * -3,
+        (Math.random() - 0.5) * 12,
+        (Math.random() - 0.5) * 9,
+        -2 + Math.random() * -4,
       ]);
     }
     return stars;
@@ -89,12 +104,20 @@ function BackgroundStars() {
 
   return (
     <>
-      {positions.map((pos, i) => (
-        <mesh key={i} position={pos}>
-          <sphereGeometry args={[0.03, 8, 8]} />
-          <meshBasicMaterial color="#475569" />
-        </mesh>
-      ))}
+      {positions.map((pos, i) => {
+        const bright = Math.random() > 0.85;
+        return (
+          <mesh key={i} position={pos}>
+            <sphereGeometry args={[bright ? 0.05 : 0.03, 8, 8]} />
+            <meshStandardMaterial
+              color="#f4ecdc"
+              emissive="#f4ecdc"
+              emissiveIntensity={bright ? 1.8 : 0.6}
+              toneMapped={false}
+            />
+          </mesh>
+        );
+      })}
     </>
   );
 }
@@ -102,11 +125,18 @@ function BackgroundStars() {
 export default function AstrometryScene({ className = "" }: { className?: string }) {
   return (
     <div className={`w-full aspect-square max-w-md ${className}`}>
-      <Canvas camera={{ position: [0, 0, 5], fov: 50 }}>
+      <Canvas
+        camera={{ position: [0, 0, 5], fov: 50 }}
+        gl={{ antialias: true, powerPreference: "high-performance" }}
+        dpr={[1, 1.75]}
+      >
         <ambientLight intensity={0.2} />
         <WobblingPositionStar />
         <BackgroundStars />
         <OrbitControls enableZoom={false} enablePan={false} />
+        <EffectComposer multisampling={0}>
+          <Bloom intensity={0.75} luminanceThreshold={0.7} luminanceSmoothing={0.22} mipmapBlur />
+        </EffectComposer>
       </Canvas>
     </div>
   );
