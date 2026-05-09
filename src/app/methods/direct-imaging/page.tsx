@@ -5,162 +5,178 @@ import dynamic from "next/dynamic";
 import Link from "next/link";
 import { getMethodBySlug } from "@/data/methods";
 
-const OrbitalSystem = dynamic(
-  () => import("@/components/three/OrbitalSystem"),
-  { ssr: false, loading: () => <div className="w-full aspect-square max-w-md bg-white/5 rounded-2xl animate-pulse" /> }
-);
+const OrbitalSystem = dynamic(() => import("@/components/three/OrbitalSystem"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full aspect-square max-w-md bg-[var(--ink-2)] rounded-lg animate-pulse" />
+  ),
+});
 
 export default function DirectImagingPage() {
   const method = getMethodBySlug("direct-imaging")!;
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6">
-      <div className="mx-auto max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+    <article className="relative">
+      {/* HERO */}
+      <section className="relative min-h-[80svh] flex items-center px-5 sm:px-10 md:px-16 pt-20">
+        <div className="max-w-4xl">
           <Link
             href="/methods"
-            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-white transition-colors mb-8"
+            className="mono text-[0.7rem] uppercase tracking-[0.2em] text-[var(--mist)] hover:text-[var(--paper)] transition-colors"
           >
-            &larr; All Methods
+            ← All Methods
           </Link>
-
-          <div
-            className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium mb-4"
-            style={{
-              background: `${method.color}15`,
-              color: method.color,
-              border: `1px solid ${method.color}30`,
-            }}
+          <motion.p
+            className="mt-8 mb-6 mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)]"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            {method.icon} {method.planetsFound.toLocaleString()} planets found
-          </div>
-
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {method.name}
-          </h1>
-          <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
+            § Method 03 — Direct Imaging · {method.planetsFound.toLocaleString()} planets
+          </motion.p>
+          <motion.h1
+            className="display-italic text-[var(--paper)] leading-[0.95] tracking-tight mb-8"
+            style={{ fontSize: "var(--t-hero)" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+          >
+            An actual photon
+            <br />
+            from another world.
+          </motion.h1>
+          <motion.p
+            className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
+            style={{ fontSize: "1.1rem" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, delay: 0.4 }}
+          >
             {method.description}
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
+      </section>
 
-        {/* How it works */}
-        <motion.section
-          className="mt-16 rounded-2xl border border-white/5 bg-[#0a0520]/40 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl font-semibold text-white mb-4">
-            How It Works
-          </h2>
-          <p className="text-slate-400 leading-relaxed max-w-3xl">
+      {/* HOW IT WORKS */}
+      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16">
+        <div className="max-w-[64ch] mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
+            § How It Works
+          </p>
+          <p
+            className="drop-cap text-[var(--paper)]"
+            style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
+          >
             {method.howItWorks}
           </p>
+        </div>
+      </section>
 
-          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="rounded-xl bg-white/5 p-5">
-              <h3 className="text-sm font-semibold text-white mb-2">
-                Without Coronagraph
-              </h3>
-              <div className="aspect-video rounded-lg bg-[#030014] flex items-center justify-center relative overflow-hidden">
-                <div className="w-24 h-24 rounded-full bg-white" />
-                <div className="absolute inset-0 bg-gradient-radial from-white/30 to-transparent" />
-                <p className="absolute bottom-2 text-[10px] text-slate-500">
-                  Star&apos;s glare overwhelms everything
-                </p>
-              </div>
-            </div>
-            <div className="rounded-xl bg-white/5 p-5">
-              <h3 className="text-sm font-semibold text-white mb-2">
-                With Coronagraph
-              </h3>
-              <div className="aspect-video rounded-lg bg-[#030014] flex items-center justify-center relative overflow-hidden">
-                <div className="w-24 h-24 rounded-full bg-black border border-white/10" />
-                {[45, 135, 225, 315].map((angle) => (
-                  <div
-                    key={angle}
-                    className="absolute w-2 h-2 rounded-full animate-pulse"
-                    style={{
-                      background: "#ec4899",
-                      boxShadow: "0 0 8px #ec4899",
-                      top: `${50 + Math.sin((angle * Math.PI) / 180) * 30}%`,
-                      left: `${50 + Math.cos((angle * Math.PI) / 180) * 30}%`,
-                    }}
-                  />
-                ))}
-                <p className="absolute bottom-2 text-[10px] text-slate-500">
-                  Planets become visible as glowing dots
-                </p>
-              </div>
+      {/* GLARE vs CORONAGRAPH COMPARISON */}
+      <section className="relative py-16 px-5 sm:px-10 md:px-16">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <p className="mono text-[0.66rem] uppercase tracking-[0.2em] text-[var(--mist)] mb-3">
+              Without coronagraph
+            </p>
+            <div className="aspect-video rounded-lg bg-[var(--ink)] flex items-center justify-center relative overflow-hidden border border-white/[0.04]">
+              <div className="w-28 h-28 rounded-full bg-[#fff7e8]" style={{ boxShadow: "0 0 80px 30px rgba(255, 230, 200, 0.5)" }} />
+              <p className="absolute bottom-3 mono text-[0.62rem] uppercase tracking-wider text-[var(--mist)]">
+                The star's glare drowns everything
+              </p>
             </div>
           </div>
-        </motion.section>
+          <div>
+            <p className="mono text-[0.66rem] uppercase tracking-[0.2em] text-[var(--ember)] mb-3">
+              With coronagraph
+            </p>
+            <div className="aspect-video rounded-lg bg-[var(--ink)] flex items-center justify-center relative overflow-hidden border border-white/[0.04]">
+              <div className="w-28 h-28 rounded-full bg-[var(--ink)] border border-[var(--ember)]/40" />
+              {[45, 135, 225, 315].map((angle) => (
+                <div
+                  key={angle}
+                  className="absolute w-2 h-2 rounded-full"
+                  style={{
+                    background: "var(--ember)",
+                    boxShadow: "0 0 12px var(--ember-glow)",
+                    top: `${50 + Math.sin((angle * Math.PI) / 180) * 30}%`,
+                    left: `${50 + Math.cos((angle * Math.PI) / 180) * 30}%`,
+                  }}
+                />
+              ))}
+              <p className="absolute bottom-3 mono text-[0.62rem] uppercase tracking-wider text-[var(--mist)]">
+                The planets emerge as faint dots
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
 
-        {/* 3D Scene */}
-        <motion.section
-          className="mt-12 rounded-2xl border border-white/5 bg-[#0a0520]/40 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl font-semibold text-white mb-2">
-            HR 8799 — Four-Planet System
+      {/* SCENE */}
+      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
+        <div className="max-w-5xl mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-3">
+            § The Signal — HR 8799
+          </p>
+          <h2
+            className="display-italic text-[var(--paper)] leading-[1.05] mb-4"
+            style={{ fontSize: "var(--t-section)" }}
+          >
+            Four worlds, photographed.
           </h2>
-          <p className="text-sm text-slate-400 mb-6">
-            The first multi-planet system directly photographed. Four massive
-            planets orbit this young star, visible in infrared. The dark center
-            represents the coronagraph mask blocking the star.
+          <p className="text-[var(--paper-dim)] mb-12 max-w-2xl leading-relaxed">
+            The first multi-planet system directly photographed. Four young, hot giants
+            still glowing from formation, visible in infrared as faint embers around their
+            young A-type star. The dark center is the coronagraph mask blocking the
+            star's glare.
           </p>
           <div className="flex justify-center">
             <OrbitalSystem />
           </div>
-        </motion.section>
+        </div>
+      </section>
 
-        {/* Discovery Story */}
-        <motion.section
-          className="mt-12 rounded-2xl border border-pink-500/10 bg-pink-500/5 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-xs font-mono uppercase tracking-wider text-pink-400 mb-3">
-            Discovery Story
+      {/* DISCOVERY STORY */}
+      <section className="relative py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
+        <div className="max-w-[64ch] mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
+            § Discovery Story · 2008-11-13
           </p>
-          <h2 className="text-2xl font-semibold text-white mb-4">
-            HR 8799 — Seeing Alien Worlds
+          <h2
+            className="display-italic text-[var(--paper)] leading-[1.05] mb-10"
+            style={{ fontSize: "var(--t-display)" }}
+          >
+            Seeing alien worlds with our own eyes.
           </h2>
-          <div className="text-slate-300 space-y-3 leading-relaxed">
-            <p>
-              In 2008, two teams independently announced one of astronomy&apos;s
-              most spectacular achievements: actual photographs of planets
-              orbiting another star. Using adaptive optics at the Keck and
-              Gemini observatories in Hawaii, they captured infrared images of
-              four giant planets orbiting the young star HR 8799.
-            </p>
-            <p>
-              These planets are still glowing from the heat of their
-              formation, making them bright enough to photograph in infrared.
-              Time-lapse images spanning years have even captured them moving
-              along their orbits — a remarkable visual confirmation.
-            </p>
-            <p>
-              In 2024, the James Webb Space Telescope turned its infrared eyes
-              on this system, revealing carbon dioxide in the planets&apos;
-              atmospheres for the first time.
-            </p>
-          </div>
+          <p
+            className="drop-cap text-[var(--paper)]"
+            style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
+          >
+            In November 2008, two teams independently published infrared images that
+            showed actual planets orbiting another star. Using adaptive optics on the
+            Keck and Gemini observatories in Hawaii, Christian Marois and his
+            collaborators captured three giant planets circling HR 8799. A fourth was
+            added in 2010.
+          </p>
+          <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
+            These planets are still glowing from the heat of their formation, bright
+            enough in infrared to photograph despite the overwhelming light of their
+            host star. Time-lapse images spanning years have since shown them moving
+            measurably along their orbits — direct visual confirmation.
+          </p>
+          <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
+            In 2024, JWST turned its infrared eyes on the system and decomposed the
+            spectra of all four giants — finding water, carbon dioxide, and clouds.
+            Atmospheric chemistry read across 130 light-years.
+          </p>
           <Link
             href="/catalog/hr-8799-b"
-            className="mt-6 inline-flex items-center gap-2 text-sm text-pink-400 hover:text-pink-300 transition-colors"
+            className="mt-12 inline-flex items-center gap-2 ember-link mono text-[0.78rem] uppercase tracking-wider"
           >
-            View HR 8799 b in catalog &rarr;
+            See HR 8799 b →
           </Link>
-        </motion.section>
-      </div>
-    </div>
+        </div>
+      </section>
+    </article>
   );
 }
