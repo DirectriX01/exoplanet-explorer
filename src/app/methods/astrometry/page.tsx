@@ -8,152 +8,133 @@ import { getMethodBySlug } from "@/data/methods";
 
 const AstrometryScene = dynamic(
   () => import("@/components/three/AstrometryScene"),
-  { ssr: false, loading: () => <div className="w-full aspect-square max-w-md bg-white/5 rounded-2xl animate-pulse" /> }
+  {
+    ssr: false,
+    loading: () => (
+      <div className="w-full aspect-square max-w-md bg-[var(--ink-2)] rounded-lg animate-pulse" />
+    ),
+  }
 );
 
 export default function AstrometryPage() {
   const method = getMethodBySlug("astrometry")!;
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6">
-      <div className="mx-auto max-w-5xl">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-        >
+    <article className="relative">
+      <section className="relative min-h-[80svh] flex items-center px-5 sm:px-10 md:px-16 pt-20">
+        <div className="max-w-4xl">
           <Link
             href="/methods"
-            className="inline-flex items-center gap-1 text-sm text-slate-500 hover:text-white transition-colors mb-8"
+            className="mono text-[0.7rem] uppercase tracking-[0.2em] text-[var(--mist)] hover:text-[var(--paper)] transition-colors"
           >
-            &larr; All Methods
+            ← All Methods
           </Link>
-
-          <div
-            className="inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium mb-4"
-            style={{
-              background: `${method.color}15`,
-              color: method.color,
-              border: `1px solid ${method.color}30`,
-            }}
+          <motion.p
+            className="mt-8 mb-6 mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)]"
+            initial={{ opacity: 0, y: 8 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
           >
-            {method.icon} {method.planetsFound.toLocaleString()} planets found
-          </div>
-
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            {method.name}
-          </h1>
-          <p className="text-lg text-slate-400 max-w-3xl leading-relaxed">
+            § Method 05 — Astrometry · {method.planetsFound.toLocaleString()} planets
+          </motion.p>
+          <motion.h1
+            className="display-italic text-[var(--paper)] leading-[0.95] tracking-tight mb-8"
+            style={{ fontSize: "var(--t-hero)" }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+          >
+            A star drifts.
+            <br />
+            But not in a straight line.
+          </motion.h1>
+          <motion.p
+            className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
+            style={{ fontSize: "1.1rem" }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.9, delay: 0.4 }}
+          >
             {method.description}
-          </p>
-        </motion.div>
+          </motion.p>
+        </div>
+      </section>
 
-        {/* How it works */}
-        <motion.section
-          className="mt-16 rounded-2xl border border-white/5 bg-[#0a0520]/40 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl font-semibold text-white mb-4">
-            How It Works
-          </h2>
-          <p className="text-slate-400 leading-relaxed max-w-3xl">
+      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16">
+        <div className="max-w-[64ch] mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
+            § How It Works
+          </p>
+          <p
+            className="drop-cap text-[var(--paper)]"
+            style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
+          >
             {method.howItWorks}
           </p>
-        </motion.section>
+        </div>
+      </section>
 
-        {/* 3D + Chart */}
-        <motion.section
-          className="mt-12 rounded-2xl border border-white/5 bg-[#0a0520]/40 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
+      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
+        <div className="max-w-6xl mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-10">
+            § The Signal — wobble on the sky
+          </p>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-center">
               <AstrometryScene />
-              <p className="text-xs text-slate-500 mt-2">
-                The bright star traces a wobbly path across the sky. The wobble
-                is caused by an unseen planet pulling it in a tiny circle.
+              <p className="mt-4 mono text-[0.66rem] uppercase tracking-[0.18em] text-[var(--mist)] text-center max-w-xs">
+                The star traces a wobbly path against background stars. The wobble is the planet pulling it in a small counter-orbit.
               </p>
             </div>
             <div>
               <PositionTrace />
-              <p className="text-xs text-slate-500 mt-3">
-                This chart plots the star&apos;s position on the sky over time.
-                The overall drift is proper motion; the oscillation around that
-                path is the planet&apos;s gravitational signature.
+              <p className="mt-4 text-[var(--paper-dim)] text-sm leading-relaxed">
+                Right Ascension vs Declination over time. The overall drift is the star's proper motion; the small oscillation riding on top is the planet's gravitational signature — microarcseconds across years.
               </p>
             </div>
           </div>
-        </motion.section>
+        </div>
+      </section>
 
-        {/* Why so rare */}
-        <motion.section
-          className="mt-12 rounded-2xl border border-white/5 bg-[#0a0520]/40 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <h2 className="text-2xl font-semibold text-white mb-4">
-            Why So Few Discoveries?
-          </h2>
-          <div className="text-slate-400 space-y-3 leading-relaxed">
-            <p>
-              Only a handful of planets have been confirmed via astrometry.
-              The reason is precision: detecting the wobble requires measuring
-              star positions to within millionths of an arcsecond — like
-              spotting a coin on the Moon from Earth.
-            </p>
-            <p>
-              The ESA&apos;s Gaia mission, launched in 2013, is changing this. By
-              mapping the precise positions and motions of over a billion
-              stars, Gaia is expected to reveal thousands of planets through
-              astrometric wobbles — a revolution in this oldest but most
-              technically demanding detection method.
-            </p>
-          </div>
-        </motion.section>
-
-        {/* Discovery Story */}
-        <motion.section
-          className="mt-12 rounded-2xl border border-violet-500/10 bg-violet-500/5 p-8"
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-        >
-          <p className="text-xs font-mono uppercase tracking-wider text-violet-400 mb-3">
-            Discovery Story
+      <section className="relative py-20 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
+        <div className="max-w-[64ch] mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
+            § Why so rare?
           </p>
-          <h2 className="text-2xl font-semibold text-white mb-4">
-            HD 176051 b — Wobble on the Sky
+          <p className="text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
+            Only a handful of planets have been confirmed by astrometry. Detecting the wobble requires measuring stellar positions to within microarcseconds — like spotting a coin on the Moon from Earth. ESA's Gaia, mapping two billion stars since 2013, is expected to unveil thousands of new planets through their tiny astrometric signatures.
+          </p>
+        </div>
+      </section>
+
+      <section className="relative py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
+        <div className="max-w-[64ch] mx-auto">
+          <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
+            § Discovery Story · 2010-04-19
+          </p>
+          <h2
+            className="display-italic text-[var(--paper)] leading-[1.05] mb-10"
+            style={{ fontSize: "var(--t-display)" }}
+          >
+            HD 176051 b — wobble on the sky.
           </h2>
-          <div className="text-slate-300 space-y-3 leading-relaxed">
-            <p>
-              In 2010, astronomers at the Palomar Observatory reported
-              detecting a Jupiter-mass planet orbiting the nearby star
-              HD 176051, using years of precise position measurements.
-              The star&apos;s tiny wobble — invisible to the naked eye but
-              measurable with cutting-edge instruments — revealed a planet
-              in a 600-day orbit.
-            </p>
-            <p>
-              This was one of the first reliable astrometric detections,
-              validating a technique that astronomers had dreamed about for
-              over a century. As precision improves, astrometry promises to
-              find planets that other methods miss — including true Earth
-              analogs around the nearest stars.
-            </p>
-          </div>
+          <p
+            className="drop-cap text-[var(--paper)]"
+            style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
+          >
+            In 2010, Matthew Muterspaugh's team at the Palomar Testbed Interferometer reported a Jupiter-mass planet orbiting the nearby binary HD 176051. The detection came from years of precise interferometric measurements of the two stars' relative positions.
+          </p>
+          <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
+            This was among the first reliable astrometric detections — validating a technique astronomers had dreamed about for over a century. As precision improves, astrometry is poised to find planets other methods miss, including true Earth analogues around the nearest stars.
+          </p>
           <Link
             href="/catalog/hd-176051-b"
-            className="mt-6 inline-flex items-center gap-2 text-sm text-violet-400 hover:text-violet-300 transition-colors"
+            className="mt-12 inline-flex items-center gap-2 ember-link mono text-[0.78rem] uppercase tracking-wider"
           >
-            View HD 176051 b in catalog &rarr;
+            See HD 176051 b →
           </Link>
-        </motion.section>
-      </div>
-    </div>
+        </div>
+      </section>
+    </article>
   );
 }
