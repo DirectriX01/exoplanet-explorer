@@ -10,9 +10,7 @@ import type { Exoplanet, DiscoveryMethod } from "@/lib/types";
 const planets = catalogData as Exoplanet[];
 
 export default function CatalogPage() {
-  const [activeMethod, setActiveMethod] = useState<DiscoveryMethod | "All">(
-    "All"
-  );
+  const [activeMethod, setActiveMethod] = useState<DiscoveryMethod | "All">("All");
   const [sortBy, setSortBy] = useState("year");
 
   const filtered = useMemo(() => {
@@ -20,7 +18,6 @@ export default function CatalogPage() {
       activeMethod === "All"
         ? planets
         : planets.filter((p) => p.discoveryMethod === activeMethod);
-
     result = [...result].sort((a, b) => {
       switch (sortBy) {
         case "name":
@@ -35,52 +32,57 @@ export default function CatalogPage() {
           return 0;
       }
     });
-
     return result;
   }, [activeMethod, sortBy]);
 
   return (
-    <div className="min-h-screen pt-24 pb-20 px-6">
-      <div className="mx-auto max-w-6xl">
+    <article className="relative">
+      <section className="relative min-h-[40svh] flex items-end px-5 sm:px-10 md:px-16 pt-24 pb-10">
         <motion.div
-          className="mb-10"
-          initial={{ opacity: 0, y: 20 }}
+          className="max-w-3xl"
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
+          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
         >
-          <p className="text-sm font-mono uppercase tracking-[0.3em] text-slate-400 mb-4">
-            Exoplanet Catalog
+          <p className="mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
+            § Catalog
           </p>
-          <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Discovered Worlds
+          <h1
+            className="display-italic text-[var(--paper)] leading-[0.95] tracking-tight mb-6"
+            style={{ fontSize: "var(--t-display)" }}
+          >
+            Discovered worlds.
           </h1>
-          <p className="text-slate-400 max-w-2xl leading-relaxed">
-            Browse a curated selection of remarkable exoplanets, from scorching
-            hot Jupiters to frozen super-Earths. Each one was found using real
-            observational data.
+          <p className="text-[var(--paper-dim)] leading-relaxed" style={{ fontSize: "1.05rem" }}>
+            A curated selection — from scorching hot Jupiters to frozen super-Earths.
+            Each one found through real observation.
           </p>
         </motion.div>
+      </section>
 
-        <FilterBar
-          activeMethod={activeMethod}
-          onMethodChange={setActiveMethod}
-          sortBy={sortBy}
-          onSortChange={setSortBy}
-          count={filtered.length}
-        />
+      <section className="relative px-5 sm:px-10 md:px-16 pb-24">
+        <div className="max-w-6xl mx-auto">
+          <FilterBar
+            activeMethod={activeMethod}
+            onMethodChange={setActiveMethod}
+            sortBy={sortBy}
+            onSortChange={setSortBy}
+            count={filtered.length}
+          />
 
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-          {filtered.map((planet, i) => (
-            <PlanetCard key={planet.slug} planet={planet} index={i} />
-          ))}
-        </div>
-
-        {filtered.length === 0 && (
-          <div className="text-center py-20 text-slate-500">
-            No planets found for this filter.
+          <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            {filtered.map((planet, i) => (
+              <PlanetCard key={planet.slug} planet={planet} index={i} />
+            ))}
           </div>
-        )}
-      </div>
-    </div>
+
+          {filtered.length === 0 && (
+            <div className="text-center py-20 mono text-[0.78rem] uppercase tracking-wider text-[var(--mist)]">
+              No planets found for this filter.
+            </div>
+          )}
+        </div>
+      </section>
+    </article>
   );
 }

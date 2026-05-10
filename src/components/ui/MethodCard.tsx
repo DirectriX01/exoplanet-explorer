@@ -10,36 +10,30 @@ export default function MethodCard({ method }: { method: MethodInfo }) {
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
-      transition={{ duration: 0.5 }}
+      transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
     >
       <Link
         href={`/methods/${method.slug}`}
-        className="group block rounded-2xl border border-white/5 bg-[#0a0520]/60 backdrop-blur-sm p-6 transition-all duration-300 hover:border-white/10 hover:bg-[#0a0520]/80"
-        style={{
-          boxShadow: `0 0 0 rgba(0,0,0,0), inset 0 1px 0 rgba(255,255,255,0.03)`,
-        }}
+        className="group block rounded-2xl border border-white/[0.05] bg-[var(--ink-2)]/55 backdrop-blur-sm p-6 transition-all duration-300 hover:border-[var(--ember)]/35 hover:bg-[var(--ink-2)]/85"
       >
         <div
-          className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl text-2xl"
-          style={{ background: `${method.color}15`, color: method.color }}
+          className="mb-5 flex h-11 w-11 items-center justify-center rounded-xl text-xl"
+          style={{ background: `${method.color}1a`, color: method.color }}
         >
           {method.icon}
         </div>
-        <h3 className="mb-2 text-lg font-semibold text-white group-hover:text-gradient transition-colors">
+        <h3 className="display text-[1.15rem] text-[var(--paper)] mb-2 group-hover:text-[var(--ember)] transition-colors">
           {method.name}
         </h3>
-        <p className="text-sm text-slate-400 leading-relaxed line-clamp-3">
+        <p className="text-[0.85rem] text-[var(--mist)] leading-relaxed line-clamp-3">
           {method.description}
         </p>
-        <div className="mt-4 flex items-center justify-between">
-          <span
-            className="text-xs font-mono font-medium"
-            style={{ color: method.color }}
-          >
-            {method.planetsFound.toLocaleString()} planets found
+        <div className="mt-5 flex items-center justify-between">
+          <span className="mono text-[0.65rem] uppercase tracking-wider text-[var(--paper-dim)]">
+            {method.planetsFound.toLocaleString()} planets
           </span>
-          <span className="text-xs text-slate-500 group-hover:text-slate-300 transition-colors">
-            Explore &rarr;
+          <span className="mono text-[0.65rem] uppercase tracking-wider text-[var(--mist)] group-hover:text-[var(--ember)] transition-colors">
+            Explore →
           </span>
         </div>
       </Link>

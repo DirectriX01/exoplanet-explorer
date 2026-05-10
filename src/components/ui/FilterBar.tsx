@@ -20,7 +20,7 @@ const sortOptions = [
 ];
 
 const methodColors: Record<string, string> = {
-  All: "#e2e8f0",
+  All: "#ff6b3d",
   Transit: "#f59e0b",
   "Radial Velocity": "#6366f1",
   Imaging: "#ec4899",
@@ -44,7 +44,7 @@ export default function FilterBar({
   count,
 }: FilterBarProps) {
   return (
-    <div className="space-y-4">
+    <div className="space-y-5">
       <div className="flex flex-wrap gap-2">
         {methodFilters.map((filter) => {
           const isActive = activeMethod === filter.value;
@@ -54,17 +54,17 @@ export default function FilterBar({
               key={filter.value}
               onClick={() => onMethodChange(filter.value)}
               className={cn(
-                "rounded-full px-3.5 py-1.5 text-xs font-medium transition-all",
+                "mono text-[0.66rem] uppercase tracking-[0.18em] rounded-full px-4 py-2 transition-all border",
                 isActive
-                  ? "text-white"
-                  : "text-slate-400 hover:text-white bg-white/5 hover:bg-white/10 border border-white/5"
+                  ? "text-[var(--paper)]"
+                  : "text-[var(--mist)] hover:text-[var(--paper)] bg-white/[0.025] hover:bg-white/[0.06] border-white/[0.05] hover:border-white/[0.12]"
               )}
               style={
                 isActive
                   ? {
-                      background: `${color}20`,
-                      color: color,
-                      border: `1px solid ${color}40`,
+                      background: `${color}1f`,
+                      color,
+                      borderColor: `${color}55`,
                     }
                   : undefined
               }
@@ -76,15 +76,15 @@ export default function FilterBar({
       </div>
 
       <div className="flex items-center justify-between">
-        <span className="text-xs text-slate-500">
+        <span className="mono text-[0.7rem] uppercase tracking-wider text-[var(--mist)] tabular-nums">
           {count} planet{count !== 1 ? "s" : ""}
         </span>
-        <div className="flex items-center gap-2">
-          <span className="text-xs text-slate-500">Sort:</span>
+        <div className="flex items-center gap-3">
+          <span className="mono text-[0.66rem] uppercase tracking-wider text-[var(--mist)]">Sort</span>
           <select
             value={sortBy}
             onChange={(e) => onSortChange(e.target.value)}
-            className="bg-white/5 border border-white/10 rounded-lg px-2 py-1 text-xs text-slate-300 outline-none focus:border-white/20"
+            className="bg-[var(--ink-2)] border border-white/[0.08] rounded-md px-3 py-1.5 mono text-[0.72rem] text-[var(--paper)] outline-none focus:border-[var(--ember)]/50 transition-colors"
           >
             {sortOptions.map((opt) => (
               <option key={opt.value} value={opt.value}>
