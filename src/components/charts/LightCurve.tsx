@@ -43,9 +43,7 @@ export default function LightCurve({
 
     svg.attr("viewBox", `0 0 ${width} ${height}`);
 
-    const g = svg
-      .append("g")
-      .attr("transform", `translate(${margin.left},${margin.top})`);
+    const g = svg.append("g").attr("transform", `translate(${margin.left},${margin.top})`);
 
     const xExtent = d3.extent(data, (d) => d.time) as [number, number];
     const yMin = d3.min(data, (d) => d.flux) || 0.99;
@@ -53,22 +51,16 @@ export default function LightCurve({
     const yPadding = (yMax - yMin) * 0.18;
 
     const x = d3.scaleLinear().domain(xExtent).range([0, innerWidth]);
-    const y = d3
-      .scaleLinear()
-      .domain([yMin - yPadding, yMax + yPadding])
-      .range([innerHeight, 0]);
+    const y = d3.scaleLinear().domain([yMin - yPadding, yMax + yPadding]).range([innerHeight, 0]);
 
-    // Hairline grid
     g.append("g")
       .selectAll("line")
       .data(y.ticks(5))
       .join("line")
       .attr("x1", 0).attr("x2", innerWidth)
       .attr("y1", (d) => y(d)).attr("y2", (d) => y(d))
-      .attr("stroke", HAIRLINE)
-      .attr("stroke-dasharray", "1 3");
+      .attr("stroke", HAIRLINE).attr("stroke-dasharray", "1 3");
 
-    // Axes — mono, no domain line
     const xAxis = g.append("g")
       .attr("transform", `translate(0,${innerHeight})`)
       .call(d3.axisBottom(x).ticks(6).tickSize(0).tickPadding(10));
@@ -80,16 +72,10 @@ export default function LightCurve({
     yAxis.selectAll("text").attr("fill", MIST).attr("font-family", "var(--font-mono), monospace").attr("font-size", "10px");
     yAxis.select(".domain").attr("stroke", RULE);
 
-    // Soft ember area under the curve
-    const area = d3.area<DataPoint>()
-      .x((d) => x(d.time)).y0(innerHeight).y1((d) => y(d.flux))
-      .curve(d3.curveBasis);
+    const area = d3.area<DataPoint>().x((d) => x(d.time)).y0(innerHeight).y1((d) => y(d.flux)).curve(d3.curveBasis);
     g.append("path").datum(data).attr("d", area).attr("fill", color).attr("fill-opacity", 0.08);
 
-    // Signal line
-    const line = d3.line<DataPoint>()
-      .x((d) => x(d.time)).y((d) => y(d.flux))
-      .curve(d3.curveBasis);
+    const line = d3.line<DataPoint>().x((d) => x(d.time)).y((d) => y(d.flux)).curve(d3.curveBasis);
     const path = g.append("path").datum(data).attr("d", line)
       .attr("fill", "none").attr("stroke", color).attr("stroke-width", 1.75)
       .attr("filter", "drop-shadow(0 0 6px rgba(255,107,61,0.45))");
@@ -100,7 +86,6 @@ export default function LightCurve({
       .transition().duration(1600).ease(d3.easeQuadOut)
       .attr("stroke-dashoffset", 0);
 
-    // Data points
     g.selectAll("circle.data")
       .data(data).join("circle").attr("class", "data")
       .attr("cx", (d) => x(d.time)).attr("cy", (d) => y(d.flux))
@@ -108,23 +93,82 @@ export default function LightCurve({
       .transition().delay((_, i) => (i / data.length) * 1600)
       .attr("fill-opacity", 0.7);
 
-    // Axis labels — mono, uppercase
+    // ─── CROSSHAIR LAYER ───────────────────────────────
+    const crosshair = g.append("g").attr("class", "crosshair").style("opacity", 0);
+    const cLine = crosshair.append("line")
+      .attr("y1", 0).attr("y2", innerHeight)
+      .attr("stroke", color).attr("stroke-width", 1).attr("stroke-dasharray", "2 3").attr("stroke-opacity", 0.65);
+    const cDot = crosshair.append("circle")
+      .attr("r", 5).attr("fill", color)
+      .style("filter", `drop-shadow(0 0 8px ${color})`);
+    const cDotInner = crosshair.append("circle")
+      .attr("r", 2).attr("fill", PAPER);
+
+    // readout pill — top center-ish, follows the cursor horizontally
+    const readout = g.append("g").attr("class", "readout").style("opacity", 0);
+    const readoutBg = readout.append("rect")
+      .attr("rx", 4).attr("height", 22).attr("fill", "#07060d").attr("stroke", color).attr("stroke-opacity", 0.5);
+    const readoutText = readout.append("text")
+      .attr("y", 14).attr("x", 8)
+      .attr("fill", PAPER).attr("font-family", "var(--font-mono), monospace").attr("font-size", "10.5px");
+
+    const overlay = g.append("rect")
+      .attr("width", innerWidth).attr("height", innerHeight)
+      .attr("fill", "transparent").style("cursor", "crosshair").style("touch-action", "pan-y");
+
+    const bisect = d3.bisector<DataPoint, number>((d) => d.time).center;
+
+    function show(eventX: number) {
+      const xVal = x.invert(eventX);
+      const idx = bisect(data, xVal);
+      const pt = data[Math.max(0, Math.min(data.length - 1, idx))];
+      const px = x(pt.time);
+      const py = y(pt.flux);
+      crosshair.style("opacity", 1);
+      cLine.attr("x1", px).attr("x2", px);
+      cDot.attr("cx", px).attr("cy", py);
+      cDotInner.attr("cx", px).attr("cy", py);
+
+      const label = `t ${pt.time.toFixed(2)}  ·  flux ${pt.flux.toFixed(5)}`;
+      readoutText.text(label);
+      const bbox = (readoutText.node() as SVGTextElement).getBBox();
+      const w = bbox.width + 16;
+      const xPos = Math.max(0, Math.min(innerWidth - w, px - w / 2));
+      readout.style("opacity", 1).attr("transform", `translate(${xPos}, ${-26})`);
+      readoutBg.attr("width", w);
+    }
+    function hide() {
+      crosshair.style("opacity", 0);
+      readout.style("opacity", 0);
+    }
+
+    overlay
+      .on("pointermove", (e) => {
+        const [px] = d3.pointer(e);
+        show(px);
+      })
+      .on("pointerleave", hide)
+      .on("touchstart", (e) => {
+        const t = (e.touches[0]?.clientX ?? 0) - (svgRef.current!.getBoundingClientRect().left + margin.left);
+        show(t);
+      }, { passive: true })
+      .on("touchmove", (e) => {
+        const t = (e.touches[0]?.clientX ?? 0) - (svgRef.current!.getBoundingClientRect().left + margin.left);
+        show(t);
+      }, { passive: true });
+
+    // Labels
     svg.append("text")
-      .attr("x", width / 2).attr("y", height - 6)
-      .attr("text-anchor", "middle")
+      .attr("x", width / 2).attr("y", height - 6).attr("text-anchor", "middle")
       .attr("fill", MIST).attr("font-family", "var(--font-mono), monospace")
       .attr("font-size", "10px").attr("letter-spacing", "0.14em")
       .text("TIME · HOURS FROM MID-TRANSIT");
-
     svg.append("text")
       .attr("transform", "rotate(-90)")
-      .attr("x", -(height / 2)).attr("y", 14)
-      .attr("text-anchor", "middle")
+      .attr("x", -(height / 2)).attr("y", 14).attr("text-anchor", "middle")
       .attr("fill", MIST).attr("font-family", "var(--font-mono), monospace")
       .attr("font-size", "10px").attr("letter-spacing", "0.14em")
       .text("RELATIVE FLUX");
-
-    // Title — sans, paper
     svg.append("text")
       .attr("x", margin.left).attr("y", 22)
       .attr("fill", PAPER).attr("font-family", "var(--font-sans), system-ui")
