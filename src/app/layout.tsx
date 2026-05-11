@@ -33,8 +33,9 @@ export default function RootLayout({
     <html
       lang="en"
       className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable} h-full antialiased`}
+      style={{ background: "var(--ink)" }}
     >
-      <body className="min-h-full flex flex-col bg-[var(--ink)] text-[var(--paper)]">
+      <body className="min-h-full flex flex-col text-[var(--paper)]">
         <SmoothScroll />
         <Backdrop />
         <Veil />
