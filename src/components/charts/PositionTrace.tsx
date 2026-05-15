@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, type RefObject } from "react";
 import * as d3 from "d3";
 
 const PAPER = "#f4ecdc";
@@ -9,7 +9,14 @@ const HAIRLINE = "rgba(244, 236, 220, 0.06)";
 const RULE = "rgba(244, 236, 220, 0.18)";
 const EMBER = "#ff6b3d";
 
-export default function PositionTrace({ className = "" }: { className?: string }) {
+export default function PositionTrace({
+  className = "",
+  phaseRef,
+}: {
+  className?: string;
+  /** 0..1 maps across the trace points. Drives an auto-cursor. */
+  phaseRef?: RefObject<number>;
+}) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const data = useMemo(() => {
@@ -118,6 +125,31 @@ export default function PositionTrace({ className = "" }: { className?: string }
       show(ex, ey);
     }).on("pointerleave", () => { crosshair.style("opacity", 0); readout.style("opacity", 0); });
 
+    // ─── PHASE-DRIVEN AUTO CURSOR ──────────────────────
+    let rafId = 0;
+    if (phaseRef) {
+      const auto = g.append("g").attr("class", "auto-cursor");
+      const aDot = auto.append("circle").attr("r", 6).attr("fill", EMBER)
+        .style("filter", `drop-shadow(0 0 10px ${EMBER})`);
+      const aDotInner = auto.append("circle").attr("r", 2.5).attr("fill", PAPER);
+
+      let lastP = -1;
+      const tick = () => {
+        const p = Math.max(0, Math.min(1, phaseRef.current ?? 0));
+        if (p !== lastP) {
+          lastP = p;
+          const idx = Math.round(p * (data.length - 1));
+          const pt = data[idx];
+          const px = x(pt.ra);
+          const py = y(pt.dec);
+          aDot.attr("cx", px).attr("cy", py);
+          aDotInner.attr("cx", px).attr("cy", py);
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    }
+
     svg.append("text").attr("x", width / 2).attr("y", height - 6).attr("text-anchor", "middle")
       .attr("fill", MIST).attr("font-family", "var(--font-mono), monospace")
       .attr("font-size", "10px").attr("letter-spacing", "0.14em").text("RIGHT ASCENSION · mas");
@@ -127,7 +159,11 @@ export default function PositionTrace({ className = "" }: { className?: string }
     svg.append("text").attr("x", margin.left).attr("y", 22)
       .attr("fill", PAPER).attr("font-family", "var(--font-sans), system-ui")
       .attr("font-size", "12px").attr("font-weight", "500").text("Stellar position wobble across the sky");
-  }, [data]);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [data, phaseRef]);
 
   return (
     <div className={`w-full ${className}`}>

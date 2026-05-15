@@ -1,10 +1,12 @@
 "use client";
 
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect, useMemo, type RefObject } from "react";
 import * as d3 from "d3";
 
 interface MicrolensingCurveProps {
   className?: string;
+  /** 0..1 maps across the simulated event window. */
+  phaseRef?: RefObject<number>;
 }
 
 const PAPER = "#f4ecdc";
@@ -13,7 +15,7 @@ const HAIRLINE = "rgba(244, 236, 220, 0.08)";
 const RULE = "rgba(244, 236, 220, 0.18)";
 const EMBER = "#ff6b3d";
 
-export default function MicrolensingCurve({ className = "" }: MicrolensingCurveProps) {
+export default function MicrolensingCurve({ className = "", phaseRef }: MicrolensingCurveProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
   const data = useMemo(() => {
@@ -121,6 +123,34 @@ export default function MicrolensingCurve({ className = "" }: MicrolensingCurveP
     overlay.on("pointermove", (e) => show(d3.pointer(e)[0]))
       .on("pointerleave", () => { crosshair.style("opacity", 0); readout.style("opacity", 0); });
 
+    // ─── PHASE-DRIVEN AUTO CURSOR ──────────────────────
+    let rafId = 0;
+    if (phaseRef) {
+      const auto = g.append("g").attr("class", "auto-cursor");
+      const aLine = auto.append("line").attr("y1", 0).attr("y2", innerHeight)
+        .attr("stroke", EMBER).attr("stroke-width", 1).attr("stroke-opacity", 0.4);
+      const aDot = auto.append("circle").attr("r", 6).attr("fill", EMBER)
+        .style("filter", `drop-shadow(0 0 10px ${EMBER})`);
+      const aDotInner = auto.append("circle").attr("r", 2.5).attr("fill", PAPER);
+
+      let lastP = -1;
+      const tick = () => {
+        const p = Math.max(0, Math.min(1, phaseRef.current ?? 0));
+        if (p !== lastP) {
+          lastP = p;
+          const idx = Math.round(p * (data.length - 1));
+          const pt = data[idx];
+          const px = x(pt.time);
+          const py = y(pt.magnification);
+          aLine.attr("x1", px).attr("x2", px);
+          aDot.attr("cx", px).attr("cy", py);
+          aDotInner.attr("cx", px).attr("cy", py);
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    }
+
     svg.append("text").attr("x", width / 2).attr("y", height - 6).attr("text-anchor", "middle")
       .attr("fill", MIST).attr("font-family", "var(--font-mono), monospace")
       .attr("font-size", "10px").attr("letter-spacing", "0.14em").text("TIME · DAYS");
@@ -130,7 +160,11 @@ export default function MicrolensingCurve({ className = "" }: MicrolensingCurveP
     svg.append("text").attr("x", margin.left).attr("y", 22)
       .attr("fill", PAPER).attr("font-family", "var(--font-sans), system-ui")
       .attr("font-size", "12px").attr("font-weight", "500").text("Microlensing event with planet anomaly");
-  }, [data]);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [data, phaseRef]);
 
   return (
     <div className={`w-full ${className}`}>

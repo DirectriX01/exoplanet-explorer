@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, type RefObject } from "react";
 import * as d3 from "d3";
 
 interface RVPoint {
@@ -15,6 +15,8 @@ interface VelocityCurveProps {
   label?: string;
   color?: string;
   className?: string;
+  /** When provided, an auto-cursor rides the curve at the current orbital phase. */
+  phaseRef?: RefObject<number>;
 }
 
 const PAPER = "#f4ecdc";
@@ -28,6 +30,7 @@ export default function VelocityCurve({
   label = "Radial Velocity Curve",
   color = "#ff6b3d",
   className = "",
+  phaseRef,
 }: VelocityCurveProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -138,6 +141,34 @@ export default function VelocityCurve({
     }
     overlay.on("pointermove", (e) => show(d3.pointer(e)[0])).on("pointerleave", () => { crosshair.style("opacity", 0); readout.style("opacity", 0); });
 
+    // ─── PHASE-DRIVEN AUTO CURSOR ──────────────────────
+    let rafId = 0;
+    if (phaseRef) {
+      const auto = g.append("g").attr("class", "auto-cursor");
+      const aLine = auto.append("line").attr("y1", 0).attr("y2", innerHeight)
+        .attr("stroke", color).attr("stroke-width", 1).attr("stroke-opacity", 0.4);
+      const aDot = auto.append("circle").attr("r", 6).attr("fill", color)
+        .style("filter", `drop-shadow(0 0 10px ${color})`);
+      const aDotInner = auto.append("circle").attr("r", 2.5).attr("fill", PAPER);
+
+      let lastP = -1;
+      const tick = () => {
+        const p = Math.max(0, Math.min(1, phaseRef.current ?? 0));
+        if (p !== lastP) {
+          lastP = p;
+          const idx = Math.round(p * (fitData.length - 1));
+          const pt = fitData[idx];
+          const px = x(pt.phase);
+          const py = y(pt.velocity);
+          aLine.attr("x1", px).attr("x2", px);
+          aDot.attr("cx", px).attr("cy", py);
+          aDotInner.attr("cx", px).attr("cy", py);
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    }
+
     svg.append("text").attr("x", width / 2).attr("y", height - 6).attr("text-anchor", "middle")
       .attr("fill", MIST).attr("font-family", "var(--font-mono), monospace")
       .attr("font-size", "10px").attr("letter-spacing", "0.14em").text("ORBITAL PHASE");
@@ -147,7 +178,11 @@ export default function VelocityCurve({
     svg.append("text").attr("x", margin.left).attr("y", 22)
       .attr("fill", PAPER).attr("font-family", "var(--font-sans), system-ui")
       .attr("font-size", "12px").attr("font-weight", "500").text(label);
-  }, [fitData, observedData, label, color]);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [fitData, observedData, label, color, phaseRef]);
 
   return (
     <div className={`w-full ${className}`}>

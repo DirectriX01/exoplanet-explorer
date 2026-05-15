@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, type RefObject } from "react";
 import * as d3 from "d3";
 
 interface DataPoint {
@@ -13,6 +13,8 @@ interface LightCurveProps {
   label?: string;
   color?: string;
   className?: string;
+  /** When provided, an auto-cursor rides the curve at the current phase value. 0..1 maps to first..last sample. */
+  phaseRef?: RefObject<number>;
 }
 
 const PAPER = "#f4ecdc";
@@ -25,6 +27,7 @@ export default function LightCurve({
   label = "Light Curve",
   color = "#ff6b3d",
   className = "",
+  phaseRef,
 }: LightCurveProps) {
   const svgRef = useRef<SVGSVGElement>(null);
 
@@ -157,6 +160,36 @@ export default function LightCurve({
         show(t);
       }, { passive: true });
 
+    // ─── PHASE-DRIVEN AUTO CURSOR (separate group from pointer crosshair) ──
+    let rafId = 0;
+    if (phaseRef) {
+      const auto = g.append("g").attr("class", "auto-cursor");
+      const aLine = auto.append("line")
+        .attr("y1", 0).attr("y2", innerHeight)
+        .attr("stroke", color).attr("stroke-width", 1).attr("stroke-opacity", 0.4);
+      const aDot = auto.append("circle")
+        .attr("r", 6).attr("fill", color)
+        .style("filter", `drop-shadow(0 0 10px ${color})`);
+      const aDotInner = auto.append("circle").attr("r", 2.5).attr("fill", PAPER);
+
+      let lastP = -1;
+      const tick = () => {
+        const p = Math.max(0, Math.min(1, phaseRef.current ?? 0));
+        if (p !== lastP) {
+          lastP = p;
+          const idx = Math.round(p * (data.length - 1));
+          const pt = data[idx];
+          const px = x(pt.time);
+          const py = y(pt.flux);
+          aLine.attr("x1", px).attr("x2", px);
+          aDot.attr("cx", px).attr("cy", py);
+          aDotInner.attr("cx", px).attr("cy", py);
+        }
+        rafId = requestAnimationFrame(tick);
+      };
+      rafId = requestAnimationFrame(tick);
+    }
+
     // Labels
     svg.append("text")
       .attr("x", width / 2).attr("y", height - 6).attr("text-anchor", "middle")
@@ -174,7 +207,11 @@ export default function LightCurve({
       .attr("fill", PAPER).attr("font-family", "var(--font-sans), system-ui")
       .attr("font-size", "12px").attr("font-weight", "500")
       .text(label);
-  }, [data, label, color]);
+
+    return () => {
+      if (rafId) cancelAnimationFrame(rafId);
+    };
+  }, [data, label, color, phaseRef]);
 
   return (
     <div className={`w-full ${className}`}>
