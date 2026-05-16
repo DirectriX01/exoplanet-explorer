@@ -6,13 +6,15 @@ import { OrbitControls } from "@react-three/drei";
 import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 
-function WobblingPositionStar() {
+function WobblingPositionStar({ onPhase }: { onPhase?: (p: number) => void }) {
   const starRef = useRef<THREE.Mesh>(null);
   const trailPoints = useRef<[number, number, number][]>([[0, 0, 0]]);
   const maxTrailLength = 220;
 
   useFrame((state) => {
     const t = state.clock.elapsedTime * 0.3;
+    // 20-second cycle through the chart's full trace
+    onPhase?.((state.clock.elapsedTime * 0.05) % 1);
     const wobbleX = Math.sin(t) * 0.4;
     const wobbleY = Math.cos(t * 1.3) * 0.25;
     const driftX = t * 0.15;
@@ -122,7 +124,13 @@ function BackgroundStars() {
   );
 }
 
-export default function AstrometryScene({ className = "" }: { className?: string }) {
+export default function AstrometryScene({
+  className = "",
+  onPhase,
+}: {
+  className?: string;
+  onPhase?: (phase: number) => void;
+}) {
   return (
     <div className={`w-full aspect-square max-w-md ${className}`}>
       <Canvas
@@ -131,7 +139,7 @@ export default function AstrometryScene({ className = "" }: { className?: string
         dpr={[1, 1.75]}
       >
         <ambientLight intensity={0.2} />
-        <WobblingPositionStar />
+        <WobblingPositionStar onPhase={onPhase} />
         <BackgroundStars />
         <OrbitControls enableZoom={false} enablePan={false} />
         <EffectComposer multisampling={0}>

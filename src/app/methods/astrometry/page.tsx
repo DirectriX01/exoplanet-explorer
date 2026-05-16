@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -18,6 +19,7 @@ const AstrometryScene = dynamic(
 
 export default function AstrometryPage() {
   const method = getMethodBySlug("astrometry")!;
+  const phaseRef = useRef(0);
 
   return (
     <article className="relative">
@@ -81,13 +83,13 @@ export default function AstrometryPage() {
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-center">
-              <AstrometryScene />
+              <AstrometryScene onPhase={(p) => { phaseRef.current = p; }} />
               <p className="mt-4 mono text-[0.66rem] uppercase tracking-[0.18em] text-[var(--mist)] text-center max-w-xs">
                 The star traces a wobbly path against background stars. The wobble is the planet pulling it in a small counter-orbit.
               </p>
             </div>
             <div>
-              <PositionTrace />
+              <PositionTrace phaseRef={phaseRef} />
               <p className="mt-4 text-[var(--paper-dim)] text-sm leading-relaxed">
                 Right Ascension vs Declination over time. The overall drift is the star's proper motion; the small oscillation riding on top is the planet's gravitational signature — microarcseconds across years.
               </p>
