@@ -20,7 +20,7 @@ function BackgroundStar() {
   );
 }
 
-function LensingStarWithPlanet() {
+function LensingStarWithPlanet({ onPhase }: { onPhase?: (p: number) => void }) {
   const groupRef = useRef<THREE.Group>(null);
   const ringRef = useRef<THREE.Mesh>(null);
 
@@ -35,6 +35,8 @@ function LensingStarWithPlanet() {
       mat.opacity = alignment * 0.7;
       mat.emissiveIntensity = alignment * 2.4;
     }
+    // Linear sweep through the chart's full event window per scene cycle.
+    onPhase?.((t / (Math.PI * 2)) % 1);
   });
 
   return (
@@ -107,7 +109,13 @@ function LightRays() {
   );
 }
 
-export default function LensingScene({ className = "" }: { className?: string }) {
+export default function LensingScene({
+  className = "",
+  onPhase,
+}: {
+  className?: string;
+  onPhase?: (phase: number) => void;
+}) {
   return (
     <div className={`w-full aspect-square max-w-md ${className}`}>
       <Canvas
@@ -117,7 +125,7 @@ export default function LensingScene({ className = "" }: { className?: string })
       >
         <ambientLight intensity={0.15} />
         <BackgroundStar />
-        <LensingStarWithPlanet />
+        <LensingStarWithPlanet onPhase={onPhase} />
         <LightRays />
         <OrbitControls enableZoom={false} enablePan={false} />
         <EffectComposer multisampling={0}>

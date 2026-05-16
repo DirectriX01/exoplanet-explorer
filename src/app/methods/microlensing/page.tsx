@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -15,6 +16,7 @@ const LensingScene = dynamic(() => import("@/components/three/LensingScene"), {
 
 export default function MicrolensingPage() {
   const method = getMethodBySlug("microlensing")!;
+  const phaseRef = useRef(0);
 
   return (
     <article className="relative">
@@ -78,13 +80,13 @@ export default function MicrolensingPage() {
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-center">
-              <LensingScene />
+              <LensingScene onPhase={(p) => { phaseRef.current = p; }} />
               <p className="mt-4 mono text-[0.66rem] uppercase tracking-[0.18em] text-[var(--mist)] text-center max-w-xs">
                 The foreground star and its planet sweep across our line of sight to a background star. Brightness peaks as they align.
               </p>
             </div>
             <div>
-              <MicrolensingCurve />
+              <MicrolensingCurve phaseRef={phaseRef} />
               <p className="mt-4 text-[var(--paper-dim)] text-sm leading-relaxed">
                 The smooth hump is the lensing star's signature; the sharp spike riding on top of it — over in hours — is the planet's own gravitational signature. One-shot, never repeats.
               </p>
