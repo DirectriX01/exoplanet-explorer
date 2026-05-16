@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import dynamic from "next/dynamic";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import CinemaShell, { useCinemaProgress } from "@/components/cinema/CinemaShell";
@@ -10,9 +9,6 @@ import LightCurve from "@/components/charts/LightCurve";
 import { TransitSceneContent } from "@/components/three/TransitScene";
 import { Slider, LabPanel, Readout } from "@/components/interactive/LabControls";
 import trappist1Data from "@/data/trappist1-lightcurve.json";
-import { rangeProgress } from "@/lib/scroll";
-
-const Backdrop = dynamic(() => import("@/components/cinema/Backdrop"));
 
 const STAR_RADIUS = 1.5;
 const TRAPPIST_B_DEPTH = 0.0072;
@@ -54,7 +50,6 @@ export default function TransitPage() {
     <article className="relative">
       {/* HERO */}
       <section className="relative min-h-[100svh] flex items-center px-5 sm:px-10 md:px-16">
-        <Backdrop />
         <div className="relative max-w-4xl">
           <motion.p
             className="mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6"
