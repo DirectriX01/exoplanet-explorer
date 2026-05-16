@@ -9,9 +9,11 @@ import * as THREE from "three";
 function WobblingStar({
   amplitude = 0.3,
   speed = 0.5,
+  onPhase,
 }: {
   amplitude?: number;
   speed?: number;
+  onPhase?: (phase: number) => void;
 }) {
   const groupRef = useRef<THREE.Group>(null);
   const blueShiftRef = useRef<THREE.PointLight>(null);
@@ -22,9 +24,9 @@ function WobblingStar({
     const wobble = Math.sin(t) * amplitude;
     const velocity = Math.cos(t); // -1 to +1, sign indicates direction toward/away
     if (groupRef.current) groupRef.current.position.x = -wobble;
-    // Light up the appropriate shift indicator
     if (blueShiftRef.current) blueShiftRef.current.intensity = Math.max(0, velocity) * 2.5;
     if (redShiftRef.current) redShiftRef.current.intensity = Math.max(0, -velocity) * 2.5;
+    onPhase?.((t % (Math.PI * 2)) / (Math.PI * 2));
   });
 
   return (
@@ -112,9 +114,11 @@ function ShiftCones() {
 export default function WobbleScene({
   amplitude = 0.3,
   className = "",
+  onPhase,
 }: {
   amplitude?: number;
   className?: string;
+  onPhase?: (phase: number) => void;
 }) {
   return (
     <div className={`w-full aspect-square max-w-md ${className}`}>
@@ -124,7 +128,7 @@ export default function WobbleScene({
         dpr={[1, 1.75]}
       >
         <ambientLight intensity={0.18} />
-        <WobblingStar amplitude={amplitude} speed={0.8} />
+        <WobblingStar amplitude={amplitude} speed={0.8} onPhase={onPhase} />
         <OrbitingPlanet amplitude={amplitude} speed={0.8} />
         <ShiftCones />
         <OrbitControls

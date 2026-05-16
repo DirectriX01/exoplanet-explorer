@@ -1,5 +1,6 @@
 "use client";
 
+import { useRef } from "react";
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
 import Link from "next/link";
@@ -16,6 +17,7 @@ const WobbleScene = dynamic(() => import("@/components/three/WobbleScene"), {
 
 export default function RadialVelocityPage() {
   const method = getMethodBySlug("radial-velocity")!;
+  const phaseRef = useRef(0);
 
   return (
     <article className="relative">
@@ -82,7 +84,7 @@ export default function RadialVelocityPage() {
           </p>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="flex flex-col items-center">
-              <WobbleScene amplitude={0.3} />
+              <WobbleScene amplitude={0.3} onPhase={(p) => { phaseRef.current = p; }} />
               <p className="mt-4 mono text-[0.66rem] uppercase tracking-[0.18em] text-[var(--mist)] text-center">
                 Star illumination shifts <span className="text-[#7eb6ff]">blue</span> when
                 approaching, <span className="text-[#ff7e7e]">red</span> when receding
@@ -94,6 +96,7 @@ export default function RadialVelocityPage() {
                 observedData={rvData.observed_points}
                 label="51 Pegasi b · ELODIE observations"
                 color="var(--ember)"
+                phaseRef={phaseRef}
               />
               <p className="mt-4 text-[var(--paper-dim)] text-sm leading-relaxed">
                 The smooth curve is the orbital fit. Dots with error bars are the actual
