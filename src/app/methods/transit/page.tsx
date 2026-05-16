@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useRef, type RefObject } from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import CinemaShell, { useCinemaProgress } from "@/components/cinema/CinemaShell";
@@ -14,7 +14,13 @@ const STAR_RADIUS = 1.5;
 const TRAPPIST_B_DEPTH = 0.0072;
 
 /** Bridges scroll progress to scene props. */
-function SceneStage({ planetRadius }: { planetRadius: number }) {
+function SceneStage({
+  planetRadius,
+  phaseRef,
+}: {
+  planetRadius: number;
+  phaseRef: RefObject<number>;
+}) {
   const progress = useCinemaProgress();
   // During Act III (after 66%), slow the orbit so the user can study it
   const speed = progress < 0.66 ? 0.6 : 0.25;
@@ -23,6 +29,7 @@ function SceneStage({ planetRadius }: { planetRadius: number }) {
       planetRadius={planetRadius}
       speed={speed}
       progress={progress}
+      onPhase={(p) => { phaseRef.current = p; }}
     />
   );
 }
@@ -43,6 +50,7 @@ function generateLightCurve(radius: number) {
 
 export default function TransitPage() {
   const [planetRadius, setPlanetRadius] = useState(0.15);
+  const phaseRef = useRef(0);
   const labCurve = useMemo(() => generateLightCurve(planetRadius), [planetRadius]);
   const depthPct = ((planetRadius * planetRadius) / (STAR_RADIUS * STAR_RADIUS)) * 100;
 
@@ -97,7 +105,7 @@ export default function TransitPage() {
         height="380svh"
         cameraPosition={[0, 1.2, 6]}
         cameraFov={50}
-        scene={<SceneStage planetRadius={planetRadius} />}
+        scene={<SceneStage planetRadius={planetRadius} phaseRef={phaseRef} />}
       >
         <Act start={0.0} end={0.34} position="right">
           <div className="rounded-2xl bg-[var(--ink)]/65 backdrop-blur-md p-6 sm:p-8 border border-white/[0.04]">
@@ -138,6 +146,7 @@ export default function TransitPage() {
               data={trappist1Data.planets.b.data}
               label="TRAPPIST-1 b · real Spitzer photometry"
               color="var(--ember)"
+              phaseRef={phaseRef}
             />
           </div>
         </Act>
@@ -170,6 +179,7 @@ export default function TransitPage() {
               data={labCurve}
               label="Your simulated transit"
               color="var(--ember)"
+              phaseRef={phaseRef}
             />
           </LabPanel>
         </Act>

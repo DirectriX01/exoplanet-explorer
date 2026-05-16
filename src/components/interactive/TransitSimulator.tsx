@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo, useCallback, useRef } from "react";
 import dynamic from "next/dynamic";
 import LightCurve from "@/components/charts/LightCurve";
 import trappist1Data from "@/data/trappist1-lightcurve.json";
@@ -38,6 +38,7 @@ function generateLightCurve(radius: number) {
 
 export default function TransitSimulator() {
   const [planetRadius, setPlanetRadius] = useState(0.15);
+  const phaseRef = useRef(0);
   const lightCurveData = useMemo(() => generateLightCurve(planetRadius), [planetRadius]);
   const depthPct = ((planetRadius * planetRadius) / (STAR_RADIUS * STAR_RADIUS)) * 100;
   const sizeVsTrappist = ((planetRadius * planetRadius) / (STAR_RADIUS * STAR_RADIUS)) / TRAPPIST_B_DEPTH;
@@ -50,7 +51,10 @@ export default function TransitSimulator() {
   return (
     <div className="grid grid-cols-1 lg:grid-cols-[1.05fr_0.95fr] gap-8 items-center">
       <div className="flex flex-col items-center">
-        <TransitScene planetRadius={planetRadius} />
+        <TransitScene
+          planetRadius={planetRadius}
+          onPhase={(p) => { phaseRef.current = p; }}
+        />
         <p className="mt-3 mono text-[0.68rem] uppercase tracking-[0.2em] text-[var(--mist)]">
           Drag to rotate
         </p>
@@ -104,6 +108,7 @@ export default function TransitSimulator() {
             data={lightCurveData}
             label={`Yours — depth ${depthPct.toFixed(2)}% · ghost overlay: TRAPPIST-1 b`}
             color="var(--ember)"
+            phaseRef={phaseRef}
           />
           {/* Ghost overlay: faint trace of real TRAPPIST-1 b */}
           <div className="-mt-[300px] pointer-events-none opacity-30">

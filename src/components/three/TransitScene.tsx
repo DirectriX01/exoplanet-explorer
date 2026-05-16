@@ -106,6 +106,8 @@ function ScrollCamera({ progress }: { progress: number }) {
 type SceneContentProps = {
   planetRadius: number;
   onBrightness?: (b: number) => void;
+  /** Normalized orbital phase 0..1, emitted every frame. */
+  onPhase?: (phase: number) => void;
   speed?: number;
   progress?: number;
   enableControls?: boolean;
@@ -115,6 +117,7 @@ type SceneContentProps = {
 export function TransitSceneContent({
   planetRadius,
   onBrightness,
+  onPhase,
   speed = 0.8,
   progress,
   enableControls = false,
@@ -129,8 +132,10 @@ export function TransitSceneContent({
       const b = isTransiting ? 1 - (planetRadius * planetRadius) / (1.5 * 1.5) : 1;
       setBrightness(b);
       onBrightness?.(b);
+      // Normalize Planet's raw radians-phase to 0..1
+      onPhase?.((phase % (Math.PI * 2)) / (Math.PI * 2));
     },
-    [planetRadius, onBrightness]
+    [planetRadius, onBrightness, onPhase]
   );
 
   return (
@@ -163,10 +168,12 @@ export default function TransitScene({
   planetRadius = 0.15,
   className = "",
   onBrightness,
+  onPhase,
 }: {
   planetRadius?: number;
   className?: string;
   onBrightness?: (b: number) => void;
+  onPhase?: (phase: number) => void;
 }) {
   return (
     <div className={`w-full aspect-square max-w-md ${className}`}>
@@ -178,6 +185,7 @@ export default function TransitScene({
         <TransitSceneContent
           planetRadius={planetRadius}
           onBrightness={onBrightness}
+          onPhase={onPhase}
           enableControls
         />
       </Canvas>
