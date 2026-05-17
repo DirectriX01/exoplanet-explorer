@@ -44,7 +44,7 @@ export default function Navbar() {
           : "bg-transparent border-b border-transparent"
       )}
     >
-      <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-5 sm:px-8">
+      <div className="flex h-14 items-center justify-between px-5 sm:px-10 md:px-16">
         <Link href="/" className="group flex items-center gap-2.5">
           <span
             aria-hidden
