@@ -146,6 +146,12 @@ export default function RadialVelocityPage() {
           >
             See 51 Pegasi b →
           </Link>
+
+          <div className="mt-16 pt-6 border-t border-white/[0.05] mono text-[0.66rem] uppercase tracking-[0.18em] text-[var(--mist)]">
+            <Link href="/labs/radial-velocity-nasa" className="hover:text-[var(--paper)] transition-colors">
+              ⌜ LABS · View this page in NASA mission-control aesthetic →
+            </Link>
+          </div>
         </div>
       </section>
     </article>
