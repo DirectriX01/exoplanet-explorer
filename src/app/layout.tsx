@@ -32,10 +32,10 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable} h-full antialiased`}
+      className={`${displayFont.variable} ${sansFont.variable} ${monoFont.variable} antialiased`}
       style={{ background: "var(--ink)" }}
     >
-      <body className="min-h-full flex flex-col text-[var(--paper)]">
+      <body className="flex flex-col text-[var(--paper)]">
         <SmoothScroll />
         <Backdrop />
         <Veil />
