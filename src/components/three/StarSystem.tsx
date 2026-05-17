@@ -3,30 +3,45 @@
 import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 
-function Sun({
-  temp = 5778,
-  radius = 1,
-}: {
-  temp?: number;
-  radius?: number;
-}) {
-  const color = temp > 7000 ? "#dbeafe" : temp > 5500 ? "#fef3c7" : temp > 4000 ? "#fed7aa" : "#fecaca";
+// Physical-ish color mapping for stellar effective temperature.
+// Cool M-dwarfs glow deep red-orange; sun-likes warm yellow; hot O/B-types pale blue.
+function colorForTemp(temp: number): { surface: string; emissive: string; intensity: number } {
+  if (temp >= 10000) return { surface: "#cde0ff", emissive: "#7eb0ff", intensity: 3.2 };
+  if (temp >= 7500)  return { surface: "#eaf0ff", emissive: "#bcd0ff", intensity: 3.0 };
+  if (temp >= 6000)  return { surface: "#fff8ec", emissive: "#fff3d6", intensity: 2.8 };
+  if (temp >= 5200)  return { surface: "#fff2d6", emissive: "#ffd28a", intensity: 2.6 };
+  if (temp >= 4000)  return { surface: "#ffd3a0", emissive: "#ff9248", intensity: 2.4 };
+  if (temp >= 3000)  return { surface: "#ffb37a", emissive: "#ff6428", intensity: 2.3 };
+  return { surface: "#ff8a55", emissive: "#ff4910", intensity: 2.2 };
+}
 
+function Sun({ temp = 5778, radius = 1 }: { temp?: number; radius?: number }) {
+  const { surface, emissive, intensity } = colorForTemp(temp);
   return (
     <group>
       <mesh>
-        <sphereGeometry args={[radius, 64, 64]} />
-        <meshBasicMaterial color={color} />
+        <sphereGeometry args={[radius, 96, 96]} />
+        <meshStandardMaterial
+          color={surface}
+          emissive={emissive}
+          emissiveIntensity={intensity}
+          roughness={1}
+          metalness={0}
+          toneMapped={false}
+        />
       </mesh>
-      <mesh scale={2}>
+      {/* Soft chromatic glow halo — additive blend for bloom catch */}
+      <mesh scale={1.6}>
         <sphereGeometry args={[radius, 32, 32]} />
         <meshBasicMaterial
-          color={color}
+          color={emissive}
           transparent
-          opacity={0.08}
-          side={THREE.BackSide}
+          opacity={0.18}
+          blending={THREE.AdditiveBlending}
+          depthWrite={false}
         />
       </mesh>
     </group>
@@ -37,15 +52,16 @@ function Planet({
   orbitRadius = 3,
   planetRadius = 0.15,
   speed = 0.4,
-  color = "#64748b",
+  color = "#d4a574",
+  starColor = "#ffd28a",
 }: {
   orbitRadius?: number;
   planetRadius?: number;
   speed?: number;
   color?: string;
+  starColor?: string;
 }) {
   const ref = useRef<THREE.Mesh>(null);
-
   useFrame((state) => {
     const t = state.clock.elapsedTime * speed;
     if (ref.current) {
@@ -53,29 +69,39 @@ function Planet({
       ref.current.position.z = Math.sin(t) * orbitRadius;
     }
   });
-
   return (
-    <mesh ref={ref}>
-      <sphereGeometry args={[planetRadius, 32, 32]} />
-      <meshStandardMaterial color={color} roughness={0.7} />
-    </mesh>
+    <group>
+      <mesh ref={ref}>
+        <sphereGeometry args={[planetRadius, 48, 48]} />
+        <meshStandardMaterial
+          color={color}
+          roughness={0.78}
+          metalness={0.05}
+          emissive={starColor}
+          emissiveIntensity={0.08}
+        />
+      </mesh>
+    </group>
   );
 }
 
 function OrbitRing({ radius }: { radius: number }) {
   const lineObj = useMemo(() => {
-    const points = [];
-    for (let i = 0; i <= 128; i++) {
-      const angle = (i / 128) * Math.PI * 2;
+    const points: THREE.Vector3[] = [];
+    for (let i = 0; i <= 192; i++) {
+      const angle = (i / 192) * Math.PI * 2;
       points.push(
         new THREE.Vector3(Math.cos(angle) * radius, 0, Math.sin(angle) * radius)
       );
     }
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
-    const material = new THREE.LineBasicMaterial({ color: "#ffffff", transparent: true, opacity: 0.06 });
+    const material = new THREE.LineBasicMaterial({
+      color: "#f4ecdc",
+      transparent: true,
+      opacity: 0.22,
+    });
     return new THREE.Line(geometry, material);
   }, [radius]);
-
   return <primitive object={lineObj} />;
 }
 
@@ -92,16 +118,25 @@ export default function StarSystem({
   planetSize?: number;
   className?: string;
 }) {
+  // Ensure the planet is always visible — bump tiny radii so they read on screen
+  const renderPlanetSize = Math.max(planetSize, 0.18);
+  const { emissive } = colorForTemp(starTemp);
+
   return (
     <div className={`w-full aspect-square max-w-md ${className}`}>
-      <Canvas camera={{ position: [0, 3, 7], fov: 50 }}>
-        <ambientLight intensity={0.15} />
-        <pointLight position={[0, 0, 0]} intensity={1.5} />
+      <Canvas
+        camera={{ position: [0, 2.5, 7], fov: 50 }}
+        gl={{ antialias: true, powerPreference: "high-performance" }}
+        dpr={[1, 1.75]}
+      >
+        <ambientLight intensity={0.2} />
+        <pointLight position={[0, 0, 0]} intensity={2.4} color={emissive} distance={20} />
         <Sun temp={starTemp} radius={starRadius} />
         <Planet
           orbitRadius={planetOrbit}
-          planetRadius={planetSize}
-          color="#6366f1"
+          planetRadius={renderPlanetSize}
+          color="#e8d6b8"
+          starColor={emissive}
         />
         <OrbitRing radius={planetOrbit} />
         <OrbitControls
@@ -110,6 +145,9 @@ export default function StarSystem({
           minPolarAngle={0.5}
           maxPolarAngle={Math.PI / 2}
         />
+        <EffectComposer multisampling={0}>
+          <Bloom intensity={1.0} luminanceThreshold={0.55} luminanceSmoothing={0.22} mipmapBlur />
+        </EffectComposer>
       </Canvas>
     </div>
   );
