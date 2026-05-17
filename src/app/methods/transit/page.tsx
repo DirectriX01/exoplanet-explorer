@@ -24,13 +24,19 @@ function SceneStage({
   const progress = useCinemaProgress();
   // During Act III (after 66%), slow the orbit so the user can study it
   const speed = progress < 0.66 ? 0.6 : 0.25;
+  // Shift the scene leftward as the lab panel slides in on the right, so the
+  // planet's full orbit stays visible instead of disappearing behind the panel.
+  const actIIIp = Math.max(0, Math.min(1, (progress - 0.66) / 0.34));
+  const offsetX = -2.6 * actIIIp;
   return (
-    <TransitSceneContent
-      planetRadius={planetRadius}
-      speed={speed}
-      progress={progress}
-      onPhase={(p) => { phaseRef.current = p; }}
-    />
+    <group position={[offsetX, 0, 0]}>
+      <TransitSceneContent
+        planetRadius={planetRadius}
+        speed={speed}
+        progress={progress}
+        onPhase={(p) => { phaseRef.current = p; }}
+      />
+    </group>
   );
 }
 

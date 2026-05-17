@@ -60,7 +60,24 @@ function Planet({
     <group ref={groupRef}>
       <mesh castShadow>
         <sphereGeometry args={[planetRadius, 48, 48]} />
-        <meshStandardMaterial color="#1b1422" roughness={0.92} metalness={0.05} />
+        <meshStandardMaterial
+          color="#4a3a2e"
+          emissive="#ff6b3d"
+          emissiveIntensity={0.25}
+          roughness={0.85}
+          metalness={0.1}
+        />
+      </mesh>
+      {/* Faint ember rim so the planet doesn't vanish against the backdrop */}
+      <mesh scale={1.18}>
+        <sphereGeometry args={[planetRadius, 32, 32]} />
+        <meshBasicMaterial
+          color="#ff8a63"
+          transparent
+          opacity={0.18}
+          side={THREE.BackSide}
+          depthWrite={false}
+        />
       </mesh>
     </group>
   );
@@ -133,8 +150,10 @@ export function TransitSceneContent({
       const b = isTransiting ? 1 - (planetRadius * planetRadius) / (1.5 * 1.5) : 1;
       setBrightness(b);
       onBrightness?.(b);
-      // Normalize Planet's raw radians-phase to 0..1
-      onPhase?.((phase % (Math.PI * 2)) / (Math.PI * 2));
+      // Emit the planet's normalized horizontal position so a chart cursor
+      // can track it in lockstep. sin(phase) ranges [-1, 1] across orbit;
+      // map to [0, 1] so cursor sweeps left↔right with the planet.
+      onPhase?.((Math.sin(phase) + 1) / 2);
     },
     [planetRadius, onBrightness, onPhase]
   );
