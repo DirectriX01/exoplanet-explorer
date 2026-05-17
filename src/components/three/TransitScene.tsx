@@ -3,6 +3,7 @@
 import { useRef, useState, useCallback, useMemo, useEffect } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import { OrbitControls } from "@react-three/drei";
+import { EffectComposer, Bloom } from "@react-three/postprocessing";
 import * as THREE from "three";
 
 function EmissiveStar({ brightness }: { brightness: number }) {
@@ -159,6 +160,9 @@ export function TransitSceneContent({
           maxPolarAngle={(Math.PI * 2) / 3}
         />
       )}
+      <EffectComposer multisampling={0}>
+        <Bloom intensity={0.95} luminanceThreshold={0.55} luminanceSmoothing={0.22} mipmapBlur />
+      </EffectComposer>
     </>
   );
 }
