@@ -114,7 +114,7 @@ export default function TransitPage() {
         scene={<SceneStage planetRadius={planetRadius} phaseRef={phaseRef} />}
       >
         <Act start={0.0} end={0.34} position="right">
-          <div className="rounded-2xl bg-[var(--ink)]/65 backdrop-blur-md p-6 sm:p-8 border border-white/[0.04]">
+          <div className="rounded-2xl bg-[var(--ink-2)]/95 sm:bg-[var(--ink-2)]/75 backdrop-blur-xl p-6 sm:p-8 border border-white/[0.06]">
             <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-4">
               Act I — The Geometry
             </p>
@@ -133,7 +133,7 @@ export default function TransitPage() {
         </Act>
 
         <Act start={0.34} end={0.66} position="bottom">
-          <div className="rounded-2xl bg-[var(--ink)]/65 backdrop-blur-md p-6 sm:p-8 border border-white/[0.04] max-w-3xl mx-auto">
+          <div className="rounded-2xl bg-[var(--ink-2)] sm:bg-[var(--ink-2)]/75 backdrop-blur-xl p-5 sm:p-8 border border-white/[0.06] max-w-3xl mx-auto">
             <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-4">
               Act II — The Signal
             </p>

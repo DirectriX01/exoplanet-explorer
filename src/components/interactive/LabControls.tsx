@@ -95,7 +95,7 @@ export function LabPanel({
 }) {
   return (
     <div
-      className={`rounded-2xl border border-white/[0.06] bg-[var(--ink-2)]/85 backdrop-blur-xl p-5 sm:p-6 space-y-5 ${className}`}
+      className={`rounded-2xl border border-white/[0.06] bg-[var(--ink-2)]/95 sm:bg-[var(--ink-2)]/85 backdrop-blur-xl p-5 sm:p-6 space-y-5 ${className}`}
     >
       {title && (
         <h3 className="mono text-[0.7rem] uppercase tracking-[0.22em] text-[var(--mist)]">

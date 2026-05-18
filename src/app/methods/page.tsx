@@ -42,7 +42,7 @@ export default function MethodsPage() {
       </section>
 
       <section className="relative py-20 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-6xl">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
             § Side by side
           </p>
