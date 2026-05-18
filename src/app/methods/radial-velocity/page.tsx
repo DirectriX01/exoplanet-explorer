@@ -45,9 +45,11 @@ export default function RadialVelocityPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           >
-            The star wobbles.
+            The star
             <br />
-            We hear it.
+            rocks back
+            <br />
+            and forth.
           </motion.h1>
           <motion.p
             className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
@@ -124,21 +126,13 @@ export default function RadialVelocityPage() {
             className="drop-cap text-[var(--paper)]"
             style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
           >
-            In October 1995, Michel Mayor and Didier Queloz announced they had found a
-            planet orbiting the sun-like star 51 Pegasi — the first confirmed exoplanet
-            around a main-sequence star. The community met it with excitement and
-            disbelief in roughly equal measure.
+            October 1995. Two Swiss astronomers, Michel Mayor and his student Didier Queloz, said they'd found a planet orbiting a normal sun-like star called 51 Pegasi. First one ever. Half the room was excited. The other half didn't believe them.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            The planet was a shock: a gas giant half the mass of Jupiter, but orbiting
-            its star every 4.2 days — far closer than Mercury is to our Sun. Dubbed a
-            "hot Jupiter," it defied existing theories of planet formation and opened a
-            new field of astronomy.
+            The skeptics had a point. The planet was weird. It was the size of Jupiter but orbiting its star every 4.2 days. That's closer than Mercury sits to our Sun. No theory of how planets form predicted anything like it. People called it a "hot Jupiter" and basically had to throw out the textbook.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            Mayor and Queloz were awarded the 2019 Nobel Prize in Physics for the
-            discovery. The radial-velocity technique they pioneered has since uncovered
-            more than a thousand worlds.
+            Other groups confirmed it within a week. Mayor and Queloz got the Nobel Prize in 2019 for the whole thing. The same wobble-measuring technique has since found over a thousand more planets.
           </p>
           <Link
             href="/catalog/51-peg-b"

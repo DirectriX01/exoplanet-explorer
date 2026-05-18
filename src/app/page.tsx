@@ -69,9 +69,9 @@ export default function Home() {
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 0.9 }}
           >
-            Five ingenious techniques. Real NASA data. A field guide to the
-            methods that revealed thousands of worlds — and the discoveries
-            that still feel like science fiction.
+            We've found around 5,800 planets around other stars. We can't visit
+            any of them. But we can see them, sort of. Here's how, with the
+            actual data NASA used to find them.
           </motion.p>
           <motion.div
             className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-4"
@@ -136,8 +136,9 @@ export default function Home() {
               Five ways to find a planet.
             </h2>
             <p className="mt-6 text-[var(--paper-dim)] leading-relaxed">
-              Each one exploits different physics — from blocking starlight to
-              bending spacetime — and reveals different kinds of worlds.
+              Each one uses different physics. Some watch starlight dim. Some
+              measure tiny wobbles. Some bend light with gravity. They find
+              different kinds of worlds.
             </p>
           </motion.div>
 
@@ -200,9 +201,10 @@ export default function Home() {
               The TRAPPIST-1 System.
             </h2>
             <p className="mt-8 text-[var(--paper-dim)] leading-relaxed max-w-2xl mx-auto">
-              Seven Earth-sized worlds orbiting an ultra-cool red dwarf just 40
-              light-years away. Three sit in the habitable zone. All found by
-              watching tiny, repeating dips in starlight.
+              Seven rocky planets the size of Earth, all orbiting one small red
+              star 40 light years away. Three of them sit at the right distance
+              for liquid water. We found all of them by watching the star
+              flicker.
             </p>
             <Link
               href="/methods/transit"
@@ -216,7 +218,7 @@ export default function Home() {
 
       {/* FOOTER */}
       <footer className="relative border-t border-white/[0.04] py-12 px-5 sm:px-10 md:px-16">
-        <div className="mx-auto max-w-6xl flex flex-col md:flex-row items-center justify-between gap-4 mono text-[0.7rem] uppercase tracking-wider text-[var(--mist)]">
+        <div className="flex flex-col md:flex-row items-center justify-between gap-4 mono text-[0.7rem] uppercase tracking-wider text-[var(--mist)]">
           <p>
             Data from{" "}
             <a
@@ -228,7 +230,18 @@ export default function Home() {
               NASA Exoplanet Archive
             </a>
           </p>
-          <p>Built for wonder · Not affiliated with NASA</p>
+          <p>
+            Built by{" "}
+            <a
+              href="https://github.com/DirectriX01"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="ember-link"
+            >
+              Abhinav
+            </a>{" "}
+            · not affiliated with NASA
+          </p>
         </div>
       </footer>
     </>

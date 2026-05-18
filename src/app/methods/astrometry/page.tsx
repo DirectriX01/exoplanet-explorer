@@ -46,9 +46,11 @@ export default function AstrometryPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           >
-            A star drifts.
+            The star
             <br />
-            But not in a straight line.
+            wiggles
+            <br />
+            on the sky.
           </motion.h1>
           <motion.p
             className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
@@ -104,7 +106,7 @@ export default function AstrometryPage() {
             § Why so rare?
           </p>
           <p className="text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            Only a handful of planets have been confirmed by astrometry. Detecting the wobble requires measuring stellar positions to within microarcseconds — like spotting a coin on the Moon from Earth. ESA's Gaia, mapping two billion stars since 2013, is expected to unveil thousands of new planets through their tiny astrometric signatures.
+            Only a few planets have actually been found this way. The wobbles are stupidly small. We're talking the equivalent of spotting a coin on the moon from earth. The European Space Agency's Gaia mission has been mapping two billion stars since 2013 with exactly this precision. It's expected to drop thousands of new planets on us when the data finishes processing.
           </p>
         </div>
       </section>
@@ -124,10 +126,10 @@ export default function AstrometryPage() {
             className="drop-cap text-[var(--paper)]"
             style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
           >
-            In 2010, Matthew Muterspaugh's team at the Palomar Testbed Interferometer reported a Jupiter-mass planet orbiting the nearby binary HD 176051. The detection came from years of precise interferometric measurements of the two stars' relative positions.
+            In 2010, Matthew Muterspaugh's team at the Palomar telescope reported a Jupiter-sized planet around a nearby pair of stars called HD 176051. They got there by tracking the positions of those two stars relative to each other for years.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            This was among the first reliable astrometric detections — validating a technique astronomers had dreamed about for over a century. As precision improves, astrometry is poised to find planets other methods miss, including true Earth analogues around the nearest stars.
+            This was one of the first solid finds using astrometry. Astronomers had been dreaming of pulling this off for over a century. As our instruments keep getting better, this method will probably catch planets the other tricks miss. Including, eventually, real Earth twins around the closest stars.
           </p>
           <Link
             href="/catalog/hd-176051-b"

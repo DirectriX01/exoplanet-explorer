@@ -43,9 +43,9 @@ export default function MicrolensingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           >
-            Gravity bends light.
+            Stars passing
             <br />
-            We catch the wobble.
+            in front of stars.
           </motion.h1>
           <motion.p
             className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
@@ -104,16 +104,16 @@ export default function MicrolensingPage() {
             className="display-italic text-[var(--paper)] leading-[1.05] mb-10"
             style={{ fontSize: "var(--t-display)" }}
           >
-            A frozen super-Earth, half a galaxy away.
+            A frozen super-Earth, basically across the galaxy.
           </h2>
           <p
             className="drop-cap text-[var(--paper)]"
             style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
           >
-            In 2006, an international team reported one of the most distant and coldest exoplanets known — a five-Earth-mass world orbiting a red dwarf 21,000 light-years away. At just 50 Kelvin (−223 °C), it's a frozen world colder than Pluto.
+            In 2006 an international team caught one of the strangest planets we know about. A world five times the mass of Earth, orbiting a small red dwarf 21,000 light years away. The temperature out there is about 50 Kelvin, which is minus 223 Celsius. Colder than Pluto.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            The discovery demonstrated microlensing's unique power: it finds planets impossible to catch any other way — small, distant worlds around faint, far-away stars. No telescope ever looks at the host star directly.
+            The really cool part is that no other method could have caught it. The host star is way too faint and far for our other tricks. Microlensing is the only way we even know it exists. We never actually saw the star. We just saw the brief brightening it caused, and the tiny extra spike from its planet.
           </p>
           <Link
             href="/catalog/ogle-2005-blg-390l-b"

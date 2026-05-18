@@ -41,9 +41,9 @@ export default function DirectImagingPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           >
-            An actual photon
+            We just
             <br />
-            from another world.
+            take a picture.
           </motion.h1>
           <motion.p
             className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
@@ -146,28 +146,19 @@ export default function DirectImagingPage() {
             className="display-italic text-[var(--paper)] leading-[1.05] mb-10"
             style={{ fontSize: "var(--t-display)" }}
           >
-            Seeing alien worlds with our own eyes.
+            We literally took the photo.
           </h2>
           <p
             className="drop-cap text-[var(--paper)]"
             style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
           >
-            In November 2008, two teams independently published infrared images that
-            showed actual planets orbiting another star. Using adaptive optics on the
-            Keck and Gemini observatories in Hawaii, Christian Marois and his
-            collaborators captured three giant planets circling HR 8799. A fourth was
-            added in 2010.
+            November 2008. Two separate teams using telescopes in Hawaii dropped infrared images that actually showed planets orbiting another star. Christian Marois and his crew at Keck and Gemini caught three of them around a young star called HR 8799. They found a fourth two years later.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            These planets are still glowing from the heat of their formation, bright
-            enough in infrared to photograph despite the overwhelming light of their
-            host star. Time-lapse images spanning years have since shown them moving
-            measurably along their orbits — direct visual confirmation.
+            These planets are young enough that they're still glowing from the heat of being formed. So they show up in infrared even with the star nearby. People have since taken photos of them over multiple years and you can actually see the planets moving along their orbits. Time lapse video of an alien solar system.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            In 2024, JWST turned its infrared eyes on the system and decomposed the
-            spectra of all four giants — finding water, carbon dioxide, and clouds.
-            Atmospheric chemistry read across 130 light-years.
+            In 2024 the James Webb Space Telescope looked at all four planets and split their light into a spectrum. It found water, carbon dioxide, and clouds in their atmospheres. We're reading the chemistry of worlds 130 light years away.
           </p>
           <Link
             href="/catalog/hr-8799-b"

@@ -6,9 +6,9 @@ export const methods: MethodInfo[] = [
     name: "Transit Method",
     shortName: "Transit",
     description:
-      "When a planet passes in front of its star, it blocks a tiny fraction of the starlight. By measuring this periodic dimming, we can detect the planet and determine its size.",
+      "Watch a star long enough and sometimes it blinks. Just a tiny dip in brightness, repeating like clockwork. That's a planet passing in front of it, blocking a sliver of the light.",
     howItWorks:
-      "Imagine watching a distant lighthouse. If a bird flies in front of it, the light dims slightly. The transit method works the same way — a planet crossing between us and its star causes a tiny, repeating dip in brightness. The bigger the planet, the deeper the dip. The pattern repeats every orbit.",
+      "Think about watching a far away lighthouse. If a bug flies across the lamp, the light dims for a second. Same idea here. The planet crosses in front of its star and the brightness drops by a fraction of a percent. The bigger the planet, the deeper the dip. Wait one orbit and it happens again. So we just stare at stars and look for the pattern.",
     icon: "◐",
     color: "#f59e0b",
     accentGlow: "rgba(245, 158, 11, 0.3)",
@@ -21,9 +21,9 @@ export const methods: MethodInfo[] = [
     name: "Radial Velocity Method",
     shortName: "Radial Velocity",
     description:
-      "A planet's gravity tugs on its star, causing it to wobble. By measuring the star's back-and-forth motion through shifts in its light spectrum, we can detect invisible planets.",
+      "Planets don't just orbit stars. They tug on them too. The star wobbles back and forth, and if you look at its light carefully you can hear it (kind of).",
     howItWorks:
-      "Picture two ice skaters holding hands and spinning — they both orbit around a shared center. A planet and its star do the same thing. The star's wobble shifts its light: bluer when moving toward us, redder when moving away. This Doppler shift reveals the planet's presence and mass.",
+      "Two ice skaters holding hands and spinning. Both move around a shared point in the middle. Stars and planets do the same. When the star comes toward us its light shifts blue, and when it moves away it shifts red. We don't see the planet at all. We just watch the star rocking. The size of the wobble tells us the planet's mass.",
     icon: "〰",
     color: "#6366f1",
     accentGlow: "rgba(99, 102, 241, 0.3)",
@@ -36,9 +36,9 @@ export const methods: MethodInfo[] = [
     name: "Direct Imaging",
     shortName: "Imaging",
     description:
-      "By blocking out a star's blinding light with special instruments, astronomers can photograph planets orbiting it — capturing actual light from alien worlds.",
+      "Sometimes we actually take a picture. Block out the star with a mask and the planet next to it shows up as a faint dot. Yes, those are real photons from another world.",
     howItWorks:
-      "Imagine trying to see a firefly next to a searchlight. Direct imaging uses a coronagraph to block the star's glare, revealing faint planets nearby. It works best for young, hot, massive planets far from their stars — they glow brightly in infrared from the heat of their formation.",
+      "Try to spot a firefly sitting next to a stadium floodlight. That's the problem. The fix is a coronagraph, basically a tiny disc inside the telescope that covers up the star. Once the glare is gone you can see what was hiding next to it. This works best for big young planets that are still hot from forming, because they glow on their own in infrared.",
     icon: "◉",
     color: "#ec4899",
     accentGlow: "rgba(236, 72, 153, 0.3)",
@@ -51,9 +51,9 @@ export const methods: MethodInfo[] = [
     name: "Gravitational Microlensing",
     shortName: "Microlensing",
     description:
-      "When a star with a planet passes in front of a distant background star, gravity bends and magnifies the background star's light — revealing the planet's presence.",
+      "Gravity bends light. So when one star drifts in front of a much farther star, it acts like a lens. If there's a planet involved, the lens gets a tiny extra kick. Catch the kick, find the planet.",
     howItWorks:
-      "Einstein predicted that gravity bends light. When a foreground star crosses in front of a distant star, it acts like a cosmic magnifying glass, briefly brightening the distant star. If the foreground star has a planet, it creates an extra bump or spike in the brightness — a telltale signature.",
+      "Einstein figured out that gravity bends light. Two stars are very far apart, and over months one drifts in front of the other from our point of view. The closer star bends the light from the farther one, making it look briefly brighter. If the closer star has a planet, the planet's own gravity adds a tiny spike on top of the smooth brightness curve. The event lasts hours to days and never repeats. You either catch it or you don't.",
     icon: "◎",
     color: "#10b981",
     accentGlow: "rgba(16, 185, 129, 0.3)",
@@ -66,9 +66,9 @@ export const methods: MethodInfo[] = [
     name: "Astrometry",
     shortName: "Astrometry",
     description:
-      "By precisely tracking a star's position over time, tiny wobbles caused by an orbiting planet can be detected — measuring the star's motion on the sky.",
+      "Same wobble as the radial velocity method, but seen sideways. The star drifts a tiny bit on the sky instead of toward and away from us. Hard to spot. Worth it when you do.",
     howItWorks:
-      "While radial velocity measures a star's back-and-forth speed, astrometry watches its actual position shift on the sky. It's like watching someone sway slightly while dancing with an invisible partner. The technique requires extraordinary precision — measuring movements smaller than the width of a human hair seen from miles away.",
+      "Picture someone slow dancing with an invisible partner. They sway a tiny bit. That's what a star with a planet does, except the sway is microscopic. We measure where the star sits among the background stars over years and look for it tracing a small circle. The precision needed is wild, basically spotting a coin on the moon from earth. ESA's Gaia mission has been doing exactly this since 2013 and will probably unlock thousands of new planets this way.",
     icon: "✦",
     color: "#8b5cf6",
     accentGlow: "rgba(139, 92, 246, 0.3)",

@@ -20,9 +20,9 @@
     "featured": true,
     "discoveryStory": {
       "paragraphs": [
-        "On May 2, 2016, Michaël Gillon's team at the University of Liège announced that the small 60 cm TRAPPIST telescope in Chile had caught a tiny, repeating dimming in the light of an inconspicuous ultra-cool dwarf star — three Earth-sized planets transiting roughly every 1.5, 2.4, and 4.0 days.",
-        "Follow-up with NASA's Spitzer Space Telescope over the next year stitched together what had looked like noise on individual nights into a precise clockwork: not three planets but seven, all rocky, all comparable in size to Earth. Three of them sit in the temperate band where liquid water could exist on the surface.",
-        "TRAPPIST-1 b is the innermost — too hot for water, scorched by its red dwarf — but it was the first dip in the light curve that gave the system away. JWST has since begun reading the atmospheres of the outer planets directly, looking for the molecules of habitability."
+        "May 2, 2016. A team at the University of Liège led by Michaël Gillon announced that a small 60 cm telescope in Chile, called TRAPPIST, had spotted three Earth-sized planets around a tiny cold red star. The planets were transiting every 1.5, 2.4, and 4.0 days. Sounds easy when you say it like that, but the dips were tiny and noisy and easy to miss.",
+        "NASA pointed the Spitzer space telescope at the same star for the next year. What looked like three planets on the noisy nightly data turned out to be seven. All of them rocky. All of them roughly the size of Earth. And three of them at the right distance from the star for water to exist as a liquid.",
+        "TRAPPIST-1 b is the closest in, which means it's also the hottest. Way too hot for water. But it was the first one to dip the star's light, the one that gave the whole system away. JWST has since started reading the atmospheres of the outer planets, looking for chemistry that might mean life."
       ],
       "date": "2016-05-02",
       "people": ["Michaël Gillon", "Emmanuël Jehin", "Spitzer Space Telescope team"]
@@ -87,9 +87,9 @@
     "featured": true,
     "discoveryStory": {
       "paragraphs": [
-        "Through the autumn of 1994, Michel Mayor and his doctoral student Didier Queloz pointed the ELODIE spectrograph at the Haute-Provence Observatory at a star almost identical to our Sun. They were looking for the tiny, periodic Doppler shifts a planet would impose on its host's light.",
-        "What they found, and announced at a Florence conference in October 1995, was impossible by every assumption of the time: a Jupiter-mass planet whipping around its star every 4.23 days, closer than Mercury is to our Sun. No model of planet formation predicted such a thing.",
-        "51 Pegasi b was the first exoplanet ever confirmed around a Sun-like star. It rewrote planet formation theory and won Mayor and Queloz the 2019 Nobel Prize in Physics. The radial-velocity method they pioneered has since uncovered more than a thousand worlds."
+        "In the fall of 1994, Michel Mayor and his student Didier Queloz pointed a custom-built spectrograph called ELODIE at a star that looks pretty much like our Sun. The idea was simple. If a planet was tugging on the star, the star's light would shift colour very slightly as it rocked back and forth. They watched for months.",
+        "What they announced in October 1995 made no sense at the time. There was a planet the size of Jupiter, but it was orbiting the star every 4.23 days. That means the planet was closer to its star than Mercury is to ours. Nobody's theory of how planets form predicted that giant planets could even exist that close. So either the theory was wrong or the planet was real. Other teams checked. The planet was real.",
+        "51 Pegasi b was the first planet we ever confirmed around a normal sun-like star. It basically broke and restarted the entire field. Mayor and Queloz won the Nobel Prize for it in 2019. The same wobble-measuring technique they invented has found over a thousand planets since."
       ],
       "date": "1995-10-06",
       "people": ["Michel Mayor", "Didier Queloz"]
@@ -116,9 +116,9 @@
     "featured": true,
     "discoveryStory": {
       "paragraphs": [
-        "In November 2008, Christian Marois and a team using adaptive optics on the Keck and Gemini telescopes published infrared images showing not one but three glowing points of light circling the young A-type star HR 8799. A fourth, inner planet was added in 2010.",
-        "These weren't transits or wobbles inferred from starlight. These were photons coming from the planets themselves — young, hot worlds still glowing from the heat of their formation, faint enough that a coronagraph and decades of adaptive-optics work were required to separate them from the glare of their star.",
-        "HR 8799 became the first multi-planet system ever directly imaged. Recent JWST observations have decomposed the spectra of its four giant planets, finding water, carbon dioxide, and clouds — atmospheric chemistry read across 130 light-years."
+        "November 2008. Christian Marois and his team used adaptive optics on the Keck and Gemini telescopes in Hawaii to take infrared photos of a young star called HR 8799. Three faint dots were clearly visible around it. Those dots were planets. A fourth one was added in 2010.",
+        "Most exoplanet finds are indirect. You measure a wobble, you measure a dip, you infer the planet from how the star behaves. This was different. The dots were actual light from the planets themselves. Big young worlds still glowing from the heat of being formed, bright enough in infrared to actually photograph next to their star.",
+        "HR 8799 was the first multi-planet system anyone ever directly photographed. JWST has since looked at all four planets and broken their light into spectra. It found water, carbon dioxide, and clouds. That's the chemistry of atmospheres 130 light years away."
       ],
       "date": "2008-11-13",
       "people": ["Christian Marois", "Bruce Macintosh", "Travis Barman"]
@@ -164,9 +164,9 @@
     "featured": true,
     "discoveryStory": {
       "paragraphs": [
-        "In July 2005, the OGLE survey detected a star in the bulge of the Milky Way brightening — a routine microlensing event, where a foreground star's gravity acts as a temporary magnifying glass on a more distant one. Then, riding on top of the smooth magnification curve, came a tiny, brief spike.",
-        "That spike was the signature of a planet orbiting the lensing star. Jean-Philippe Beaulieu's PLANET collaboration, alerted by OGLE in time, caught the anomaly across telescopes from Chile to Tasmania. Modelling it gave a planet of about five Earth masses orbiting 2.6 AU from a red dwarf.",
-        "OGLE-2005-BLG-390L b sits roughly 21,000 light-years away — one of the most distant exoplanets known, and at 50 Kelvin one of the coldest. Microlensing is the only technique that could have found it; its star is far too dim to study by any other means."
+        "July 2005. A survey called OGLE noticed a star deep inside the Milky Way getting brighter, then dimmer. Pretty routine. It just meant another star had drifted in front of it and was bending its light. But then, riding on top of the smooth brightness curve, there was a sharp little spike that lasted hours.",
+        "That spike was a planet. Jean-Philippe Beaulieu's team across telescopes in Chile and Tasmania got the alert in time and recorded the whole event. When they modelled it, the planet came out to about five Earth masses, orbiting at roughly 2.6 AU from a small red dwarf.",
+        "OGLE-2005-BLG-390L b is about 21,000 light years away. That's basically across the galaxy. It's also one of the coldest known planets, sitting around 50 Kelvin. We could not have found it any other way. The star is far too faint for any of our other methods. This one moment of alignment was the only chance we had."
       ],
       "date": "2006-01-26",
       "people": ["Jean-Philippe Beaulieu", "OGLE collaboration", "PLANET collaboration"]
@@ -193,9 +193,9 @@
     "featured": true,
     "discoveryStory": {
       "paragraphs": [
-        "Astrometry — measuring a star's tiny side-to-side wobble as an unseen planet tugs it through space — is the oldest exoplanet detection technique in concept and the hardest in practice. The wobbles are microarcseconds; for decades, every claimed astrometric detection had eventually been retracted.",
-        "In 2010, Matthew Muterspaugh's team at the Palomar Testbed Interferometer reported a Jupiter-mass companion to the binary HD 176051, found by tracking the relative motion of its two stars across years of interferometric observations.",
-        "HD 176051 b is one of a handful of planets ever confirmed by astrometry. The technique is poised for a renaissance: ESA's Gaia mission, mapping the positions and motions of two billion stars, is expected to unveil thousands of new planets through their gravitational signatures over the next decade."
+        "Astrometry is one of those ideas astronomers have been chasing for over a hundred years. You measure how a star wiggles on the sky as an unseen planet tugs on it. The problem is the wiggles are microscopically tiny. For decades, every claim of finding a planet this way got retracted later.",
+        "Then in 2010, Matthew Muterspaugh's team at the Palomar telescope in California reported a Jupiter-sized planet around HD 176051. They got there by carefully tracking the positions of two nearby stars relative to each other across years of observations.",
+        "HD 176051 b is one of the only solid astrometry finds we have. The technique is about to take off though. The European Space Agency's Gaia spacecraft has been measuring the positions of two billion stars since 2013, with exactly the precision needed. When that data fully unlocks, we'll probably get thousands of new planets this way."
       ],
       "date": "2010-04-19",
       "people": ["Matthew Muterspaugh", "Palomar Testbed Interferometer team"]

@@ -59,22 +59,25 @@ function Planet({
   return (
     <group ref={groupRef}>
       <mesh castShadow>
-        <sphereGeometry args={[planetRadius, 48, 48]} />
+        <sphereGeometry args={[planetRadius, 64, 64]} />
+        {/* Lighter rocky base + minimal emissive so the star's pointLight
+            actually carves out a day/night terminator on the surface */}
         <meshStandardMaterial
-          color="#4a3a2e"
-          emissive="#ff6b3d"
-          emissiveIntensity={0.25}
-          roughness={0.85}
-          metalness={0.1}
+          color="#b89074"
+          emissive="#3a1e10"
+          emissiveIntensity={0.06}
+          roughness={0.92}
+          metalness={0.02}
         />
       </mesh>
-      {/* Faint ember rim so the planet doesn't vanish against the backdrop */}
-      <mesh scale={1.18}>
+      {/* Subtle ember rim — just enough to keep the planet from disappearing
+          on the night side, without flattening the lighting */}
+      <mesh scale={1.14}>
         <sphereGeometry args={[planetRadius, 32, 32]} />
         <meshBasicMaterial
           color="#ff8a63"
           transparent
-          opacity={0.18}
+          opacity={0.1}
           side={THREE.BackSide}
           depthWrite={false}
         />
@@ -160,8 +163,9 @@ export function TransitSceneContent({
 
   return (
     <>
-      <ambientLight intensity={0.18} />
-      <pointLight position={[0, 0, 0]} intensity={2.4} color="#ffb070" />
+      {/* Low ambient so the night side stays dim and the terminator reads */}
+      <ambientLight intensity={0.08} />
+      <pointLight position={[0, 0, 0]} intensity={4.5} color="#ffb070" distance={10} decay={1.4} />
       <EmissiveStar brightness={brightness} />
       <Planet
         planetRadius={planetRadius}

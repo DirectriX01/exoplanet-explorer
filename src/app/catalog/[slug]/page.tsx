@@ -16,6 +16,7 @@ import {
 } from "@/lib/utils";
 import Frame from "@/components/nasa/Frame";
 import Reticle from "@/components/nasa/Reticle";
+import Sonifier from "@/components/interactive/Sonifier";
 import { plexMono } from "@/lib/nasa-fonts";
 
 const StarSystem = dynamic(() => import("@/components/three/StarSystem"), {
@@ -95,24 +96,60 @@ function Signal({
   phaseRef: React.RefObject<number>;
 }) {
   if (planet.slug === "trappist-1-b") {
+    const fluxes = trappist1Data.planets.b.data.map((d) => d.flux);
+    const fmin = Math.min(...fluxes);
+    const fmax = Math.max(...fluxes);
     return (
-      <LightCurve
-        data={trappist1Data.planets.b.data}
-        label="TRN · Spitzer photometry"
-        color={STATUS.warning}
-        phaseRef={phaseRef}
-      />
+      <div className="space-y-4">
+        <LightCurve
+          data={trappist1Data.planets.b.data}
+          label="TRN · Spitzer photometry"
+          color={STATUS.warning}
+          phaseRef={phaseRef}
+        />
+        <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/[0.05]">
+          <p className="text-[0.7rem] uppercase tracking-[0.18em] text-white/55 max-w-[55%]">
+            The data, as audio. Pitch drops where the planet blocks the star.
+          </p>
+          <Sonifier
+            values={fluxes}
+            vmin={fmin}
+            vmax={fmax}
+            duration={6}
+            label="Hear the transit"
+            hint="Web audio · 6 sec"
+          />
+        </div>
+      </div>
     );
   }
   if (planet.slug === "51-peg-b") {
+    const vels = peg51Data.data.map((d) => d.velocity);
+    const vmin = Math.min(...vels);
+    const vmax = Math.max(...vels);
     return (
-      <VelocityCurve
-        fitData={peg51Data.data}
-        observedData={peg51Data.observed_points}
-        label="DOP · ELODIE RV · 4.23 d period"
-        color={STATUS.warning}
-        phaseRef={phaseRef}
-      />
+      <div className="space-y-4">
+        <VelocityCurve
+          fitData={peg51Data.data}
+          observedData={peg51Data.observed_points}
+          label="DOP · ELODIE RV · 4.23 d period"
+          color={STATUS.warning}
+          phaseRef={phaseRef}
+        />
+        <div className="flex items-center justify-between gap-3 pt-2 border-t border-white/[0.05]">
+          <p className="text-[0.7rem] uppercase tracking-[0.18em] text-white/55 max-w-[55%]">
+            The wobble, as audio. Pitch follows the star's velocity.
+          </p>
+          <Sonifier
+            values={vels}
+            vmin={vmin}
+            vmax={vmax}
+            duration={5}
+            label="Hear the wobble"
+            hint="Web audio · 5 sec"
+          />
+        </div>
+      </div>
     );
   }
   const blurb: Record<string, string> = {

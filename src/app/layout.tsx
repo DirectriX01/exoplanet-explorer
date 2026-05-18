@@ -10,9 +10,9 @@ import "./globals.css";
 const Backdrop = dynamic(() => import("@/components/cinema/Backdrop"));
 
 export const metadata: Metadata = {
-  title: "Exoplanet Explorer — How We Find Worlds Beyond Our Own",
+  title: "Exoplanet Explorer · How we find worlds beyond our own",
   description:
-    "An interactive journey through the methods scientists use to discover planets orbiting distant stars, featuring real data from NASA.",
+    "An interactive look at the five ways we've found thousands of planets around other stars. Real NASA data. Built by Abhinav.",
   keywords: [
     "exoplanets",
     "space",
@@ -21,7 +21,16 @@ export const metadata: Metadata = {
     "radial velocity",
     "NASA",
     "interactive",
+    "TRAPPIST-1",
   ],
+  authors: [{ name: "Abhinav", url: "https://github.com/DirectriX01" }],
+  creator: "Abhinav (@DirectriX01)",
+  openGraph: {
+    title: "Exoplanet Explorer",
+    description:
+      "Five ways we find planets around other stars. Scroll through it.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({

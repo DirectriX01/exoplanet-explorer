@@ -54,8 +54,9 @@ export default function CatalogPage() {
             Discovered worlds.
           </h1>
           <p className="text-[var(--paper-dim)] leading-relaxed" style={{ fontSize: "1.05rem" }}>
-            A curated selection — from scorching hot Jupiters to frozen super-Earths.
-            Each one found through real observation.
+            A small collection of weird and interesting worlds. Hot Jupiters
+            that orbit in days. Frozen super-Earths. A handful of rocky planets
+            roughly our size. Each one is real, found with a real telescope.
           </p>
         </motion.div>
       </section>

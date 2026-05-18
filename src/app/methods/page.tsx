@@ -24,9 +24,9 @@ export default function MethodsPage() {
             Five ways to find a planet.
           </h1>
           <p className="text-[var(--paper-dim)] max-w-2xl leading-relaxed" style={{ fontSize: "1.1rem" }}>
-            Each method exploits different physics — from blocking starlight to
-            bending spacetime — and reveals different kinds of worlds. Start
-            anywhere.
+            We can't fly to any of these planets. Most are too far for our
+            telescopes to actually see. So we got clever. Five tricks, each
+            using different physics. Pick any one to start.
           </p>
         </motion.div>
       </section>

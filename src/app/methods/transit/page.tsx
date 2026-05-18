@@ -80,9 +80,11 @@ export default function TransitPage() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
           >
-            How starlight tells us
+            We just wait
             <br />
-            a world is there
+            for the star
+            <br />
+            to blink.
           </motion.h1>
           <motion.p
             className="text-[var(--paper-dim)] max-w-2xl leading-relaxed"
@@ -91,9 +93,9 @@ export default function TransitPage() {
             animate={{ opacity: 1 }}
             transition={{ duration: 1, delay: 0.4 }}
           >
-            More than four thousand worlds have been found by watching their stars
-            blink — a periodic, predictable dimming that happens only when a planet
-            crosses our line of sight. Scroll through the geometry.
+            More than four thousand planets, all spotted this way. The trick
+            is that a planet passing in front of its star dims the brightness
+            by a tiny amount. Watch long enough and the dip repeats. Scroll.
           </motion.p>
           <motion.div
             className="mt-12 mono text-[0.7rem] uppercase tracking-[0.2em] text-[var(--mist)]"
@@ -122,12 +124,13 @@ export default function TransitPage() {
               className="display text-[var(--paper)] leading-[1.05] mb-4"
               style={{ fontSize: "var(--t-section)" }}
             >
-              A planet, an orbit, a line of sight.
+              A planet, an orbit, our point of view.
             </h2>
             <p className="text-[var(--paper-dim)] leading-relaxed">
-              Every planet traces an orbit around its star. If that orbit happens
-              to be aligned with us — edge-on — the planet sweeps in front of the
-              star on every pass.
+              Every planet goes around its star. If that orbit happens to line
+              up with us, edge-on, the planet will pass in front of the star
+              once every loop. Most planets don't line up with us at all. The
+              ones that do are the ones we find.
             </p>
           </div>
         </Act>
@@ -141,12 +144,13 @@ export default function TransitPage() {
               className="display text-[var(--paper)] leading-[1.05] mb-4"
               style={{ fontSize: "var(--t-section)" }}
             >
-              The star dims, by a precise amount.
+              The star dims, by exactly the right amount.
             </h2>
             <p className="text-[var(--paper-dim)] leading-relaxed mb-6">
-              The depth of the dip tells you the planet's size relative to the
-              star. Spitzer captured this signal from TRAPPIST-1 b — about 0.72%,
-              repeating every 1.5 days.
+              How deep the dip goes tells us how big the planet is compared to
+              the star. The chart below is the real signal NASA's Spitzer
+              telescope picked up from TRAPPIST-1 b. About 0.72% drop in
+              brightness, happening every 1.5 days like clockwork.
             </p>
             <LightCurve
               data={trappist1Data.planets.b.data}
@@ -201,19 +205,19 @@ export default function TransitPage() {
             className="display-italic text-[var(--paper)] leading-[1.05] mb-10"
             style={{ fontSize: "var(--t-display)" }}
           >
-            From a 1999 hint to seven Earth-sized worlds.
+            From a hint in 1999 to seven Earth-sized worlds.
           </h2>
           <p
             className="drop-cap text-[var(--paper)]"
             style={{ fontSize: "1.15rem", lineHeight: 1.75 }}
           >
-            The first transiting exoplanet was caught in 1999 by David Charbonneau and Greg Henry — a gas giant called HD 209458 b whose 1.7% dimming was visible from a small backyard-class telescope. It was proof of concept: an Earth-sized telescope could find Earth-sized worlds if the geometry cooperated.
+            The first one we caught this way was in 1999. Two astronomers, David Charbonneau and Greg Henry, watched a star called HD 209458 dim by about 1.7%. The wild part is the telescope was small enough that an amateur in their backyard could do it. They proved the whole thing was possible.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            NASA's Kepler mission, launched 2009, stared at a single patch of sky for four years and watched 150,000 stars at once. It returned thousands of confirmed planets and pushed the technique to its physical limit — picking out Earth-sized worlds in habitable orbits around Sun-like stars.
+            Then NASA went big. The Kepler mission launched in 2009 and stared at one patch of sky for four years, tracking 150,000 stars at the same time. It found thousands of planets, including ones the size of Earth.
           </p>
           <p className="mt-6 text-[var(--paper-dim)]" style={{ fontSize: "1.05rem", lineHeight: 1.75 }}>
-            The TRAPPIST-1 system, found in 2016 by a small 60 cm telescope in Chile, remains the cleanest demonstration of what transits can do: seven rocky planets, three in the habitable zone, all detected through repeating dips in the light of a single dim red dwarf 40 light-years away.
+            The TRAPPIST-1 system came in 2016. A tiny 60 centimeter telescope in Chile caught the signal from a small red star 40 light years away. Seven Earth-sized planets, three of them at the right distance for liquid water. All found by watching the star flicker.
           </p>
           <Link
             href="/catalog/trappist-1-b"
