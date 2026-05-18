@@ -16,9 +16,10 @@ export default function DirectImagingPage() {
   const method = getMethodBySlug("direct-imaging")!;
 
   return (
-    <article className="relative">
+    <article className="relative px-5 sm:px-10 md:px-16">
+     <div className="max-w-6xl mx-auto">
       {/* HERO */}
-      <section className="relative min-h-[80svh] flex items-center px-5 sm:px-10 md:px-16 pt-20">
+      <section className="relative min-h-[80svh] flex items-center pt-20">
         <div className="max-w-4xl">
           <Link
             href="/methods"
@@ -58,8 +59,8 @@ export default function DirectImagingPage() {
       </section>
 
       {/* HOW IT WORKS */}
-      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16">
-        <div className="max-w-[64ch] mx-auto">
+      <section className="relative py-20 sm:py-28">
+        <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
             § How It Works
           </p>
@@ -73,8 +74,8 @@ export default function DirectImagingPage() {
       </section>
 
       {/* GLARE vs CORONAGRAPH COMPARISON */}
-      <section className="relative py-16 px-5 sm:px-10 md:px-16">
-        <div className="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+      <section className="relative py-16">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div>
             <p className="mono text-[0.66rem] uppercase tracking-[0.2em] text-[var(--mist)] mb-3">
               Without coronagraph
@@ -113,8 +114,8 @@ export default function DirectImagingPage() {
       </section>
 
       {/* SCENE */}
-      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-5xl mx-auto">
+      <section className="relative py-20 sm:py-28 border-t border-white/[0.05]">
+        <div>
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-3">
             § The Signal — HR 8799
           </p>
@@ -137,8 +138,8 @@ export default function DirectImagingPage() {
       </section>
 
       {/* DISCOVERY STORY */}
-      <section className="relative py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-[64ch] mx-auto">
+      <section className="relative py-28 border-t border-white/[0.05]">
+        <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
             § Discovery Story · 2008-11-13
           </p>
@@ -168,6 +169,7 @@ export default function DirectImagingPage() {
           </Link>
         </div>
       </section>
+     </div>
     </article>
   );
 }

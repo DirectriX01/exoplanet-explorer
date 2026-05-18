@@ -19,8 +19,9 @@ export default function MicrolensingPage() {
   const phaseRef = useRef(0);
 
   return (
-    <article className="relative">
-      <section className="relative min-h-[80svh] flex items-center px-5 sm:px-10 md:px-16 pt-20">
+    <article className="relative px-5 sm:px-10 md:px-16">
+     <div className="max-w-6xl mx-auto">
+      <section className="relative min-h-[80svh] flex items-center pt-20">
         <div className="max-w-4xl">
           <Link
             href="/methods"
@@ -59,8 +60,8 @@ export default function MicrolensingPage() {
         </div>
       </section>
 
-      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16">
-        <div className="max-w-[64ch] mx-auto">
+      <section className="relative py-20 sm:py-28">
+        <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
             § How It Works
           </p>
@@ -73,8 +74,8 @@ export default function MicrolensingPage() {
         </div>
       </section>
 
-      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative py-20 sm:py-28 border-t border-white/[0.05]">
+        <div>
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-10">
             § The Signal — OGLE-2005-BLG-390L b
           </p>
@@ -95,8 +96,8 @@ export default function MicrolensingPage() {
         </div>
       </section>
 
-      <section className="relative py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-[64ch] mx-auto">
+      <section className="relative py-28 border-t border-white/[0.05]">
+        <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
             § Discovery Story · 2006-01-26
           </p>
@@ -123,6 +124,7 @@ export default function MicrolensingPage() {
           </Link>
         </div>
       </section>
+     </div>
     </article>
   );
 }

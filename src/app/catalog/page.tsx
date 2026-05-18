@@ -42,8 +42,9 @@ export default function CatalogPage() {
   }, [activeMethod, sortBy]);
 
   return (
-    <article className="relative">
-      <section className="relative min-h-[40svh] flex items-end px-5 sm:px-10 md:px-16 pt-24 pb-10">
+    <article className="relative px-5 sm:px-10 md:px-16">
+     <div className="max-w-6xl mx-auto">
+      <section className="relative min-h-[40svh] flex items-end pt-24 pb-10">
         <motion.div
           className="max-w-3xl"
           initial={{ opacity: 0, y: 16 }}
@@ -68,8 +69,8 @@ export default function CatalogPage() {
       </section>
 
       {/* PARAMETER SPACE — the big picture, all planets as dots */}
-      <section className="relative px-5 sm:px-10 md:px-16 pb-16">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative pb-16">
+        <div>
           <div className="mb-6 flex items-baseline justify-between gap-4 flex-wrap">
             <div>
               <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-2">
@@ -87,8 +88,8 @@ export default function CatalogPage() {
         </div>
       </section>
 
-      <section className="relative px-5 sm:px-10 md:px-16 pb-24 border-t border-white/[0.05] pt-16">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative pb-24 border-t border-white/[0.05] pt-16">
+        <div>
           <FilterBar
             activeMethod={activeMethod}
             onMethodChange={setActiveMethod}
@@ -110,6 +111,7 @@ export default function CatalogPage() {
           )}
         </div>
       </section>
+     </div>
     </article>
   );
 }

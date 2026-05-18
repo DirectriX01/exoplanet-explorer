@@ -22,8 +22,9 @@ export default function AstrometryPage() {
   const phaseRef = useRef(0);
 
   return (
-    <article className="relative">
-      <section className="relative min-h-[80svh] flex items-center px-5 sm:px-10 md:px-16 pt-20">
+    <article className="relative px-5 sm:px-10 md:px-16">
+     <div className="max-w-6xl mx-auto">
+      <section className="relative min-h-[80svh] flex items-center pt-20">
         <div className="max-w-4xl">
           <Link
             href="/methods"
@@ -64,8 +65,8 @@ export default function AstrometryPage() {
         </div>
       </section>
 
-      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16">
-        <div className="max-w-[64ch] mx-auto">
+      <section className="relative py-20 sm:py-28">
+        <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
             § How It Works
           </p>
@@ -78,8 +79,8 @@ export default function AstrometryPage() {
         </div>
       </section>
 
-      <section className="relative py-20 sm:py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-6xl mx-auto">
+      <section className="relative py-20 sm:py-28 border-t border-white/[0.05]">
+        <div>
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-10">
             § The Signal — wobble on the sky
           </p>
@@ -100,8 +101,8 @@ export default function AstrometryPage() {
         </div>
       </section>
 
-      <section className="relative py-20 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-[64ch] mx-auto">
+      <section className="relative py-20 border-t border-white/[0.05]">
+        <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
             § Why so rare?
           </p>
@@ -111,8 +112,8 @@ export default function AstrometryPage() {
         </div>
       </section>
 
-      <section className="relative py-28 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-[64ch] mx-auto">
+      <section className="relative py-28 border-t border-white/[0.05]">
+        <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
             § Discovery Story · 2010-04-19
           </p>
@@ -139,6 +140,7 @@ export default function AstrometryPage() {
           </Link>
         </div>
       </section>
+     </div>
     </article>
   );
 }

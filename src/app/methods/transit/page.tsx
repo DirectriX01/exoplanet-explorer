@@ -64,7 +64,7 @@ export default function TransitPage() {
     <article className="relative">
       {/* HERO */}
       <section className="relative min-h-[100svh] flex items-center px-5 sm:px-10 md:px-16">
-        <div className="relative max-w-4xl">
+        <div className="relative max-w-6xl mx-auto w-full">
           <motion.p
             className="mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6"
             initial={{ opacity: 0, y: 12 }}
@@ -197,7 +197,8 @@ export default function TransitPage() {
 
       {/* DISCOVERY STORY (article) */}
       <section className="relative py-28 sm:py-36 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-[64ch] mx-auto">
+        <div className="max-w-6xl mx-auto">
+          <div className="max-w-[64ch]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
             § Discovery Story
           </p>
@@ -225,6 +226,7 @@ export default function TransitPage() {
           >
             See TRAPPIST-1 b →
           </Link>
+          </div>
         </div>
       </section>
     </article>
