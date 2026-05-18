@@ -1,11 +1,17 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import dynamic from "next/dynamic";
 import { motion } from "framer-motion";
 import PlanetCard from "@/components/ui/PlanetCard";
 import FilterBar from "@/components/ui/FilterBar";
 import catalogData from "@/data/catalog.json";
 import type { Exoplanet, DiscoveryMethod } from "@/lib/types";
+
+const ParameterSpacePlot = dynamic(
+  () => import("@/components/charts/ParameterSpacePlot"),
+  { ssr: false, loading: () => <div className="w-full h-[480px] bg-[var(--ink-2)] rounded-lg animate-pulse" /> }
+);
 
 const planets = catalogData as Exoplanet[];
 
@@ -61,7 +67,27 @@ export default function CatalogPage() {
         </motion.div>
       </section>
 
-      <section className="relative px-5 sm:px-10 md:px-16 pb-24">
+      {/* PARAMETER SPACE — the big picture, all planets as dots */}
+      <section className="relative px-5 sm:px-10 md:px-16 pb-16">
+        <div className="max-w-6xl mx-auto">
+          <div className="mb-6 flex items-baseline justify-between gap-4 flex-wrap">
+            <div>
+              <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-2">
+                § Where they live
+              </p>
+              <h2 className="display text-[var(--paper)]" style={{ fontSize: "var(--t-section)" }}>
+                Every known planet, plotted.
+              </h2>
+            </div>
+            <p className="mono text-[0.66rem] uppercase tracking-[0.18em] text-[var(--mist)] max-w-md">
+              Each dot is one planet. Hover for details. Click to open. Solar system worlds shown as reference.
+            </p>
+          </div>
+          <ParameterSpacePlot planets={planets} />
+        </div>
+      </section>
+
+      <section className="relative px-5 sm:px-10 md:px-16 pb-24 border-t border-white/[0.05] pt-16">
         <div className="max-w-6xl mx-auto">
           <FilterBar
             activeMethod={activeMethod}

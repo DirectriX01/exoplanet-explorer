@@ -4,6 +4,7 @@ import { displayFont, sansFont, monoFont } from "@/lib/fonts";
 import Navbar from "@/components/layout/Navbar";
 import Grain from "@/components/ui/Grain";
 import Veil from "@/components/ui/Veil";
+import Byline from "@/components/ui/Byline";
 import SmoothScroll from "@/components/cinema/SmoothScroll";
 import "./globals.css";
 
@@ -51,6 +52,7 @@ export default function RootLayout({
         <Grain />
         <Navbar />
         <main className="flex-1 relative z-[1]">{children}</main>
+        <Byline />
       </body>
     </html>
   );
