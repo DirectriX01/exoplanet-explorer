@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+  <defs>
+    <radialGradient id="planet" cx="38%" cy="32%" r="68%">
+      <stop offset="0%" stop-color="#ffa680" />
+      <stop offset="45%" stop-color="#ff6b3d" />
+      <stop offset="100%" stop-color="#a83a18" />
+    </radialGradient>
+    <radialGradient id="glow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#ff6b3d" stop-opacity="0.55" />
+      <stop offset="55%" stop-color="#ff6b3d" stop-opacity="0.12" />
+      <stop offset="100%" stop-color="#ff6b3d" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <circle cx="16" cy="16" r="15" fill="url(#glow)" />
+  <circle cx="16" cy="16" r="7.5" fill="url(#planet)" />
+</svg>
