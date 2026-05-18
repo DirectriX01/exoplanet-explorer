@@ -6,43 +6,41 @@ import { methods } from "@/data/methods";
 
 export default function MethodsPage() {
   return (
-    <article className="relative">
-      <section className="relative min-h-[60svh] flex items-end px-5 sm:px-10 md:px-16 pt-24 pb-12">
-        <motion.div
-          className="max-w-4xl"
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
-        >
-          <p className="mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
-            § The Five Methods
-          </p>
-          <h1
-            className="display-italic text-[var(--paper)] leading-[0.95] tracking-tight mb-8"
-            style={{ fontSize: "var(--t-display)" }}
+    <article className="relative px-5 sm:px-10 md:px-16">
+      <div className="max-w-6xl mx-auto">
+        <section className="relative min-h-[60svh] flex items-end pt-24 pb-12">
+          <motion.div
+            className="max-w-3xl"
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.9, ease: [0.16, 1, 0.3, 1] }}
           >
-            Five ways to find a planet.
-          </h1>
-          <p className="text-[var(--paper-dim)] max-w-2xl leading-relaxed" style={{ fontSize: "1.1rem" }}>
-            We can't fly to any of these planets. Most are too far for our
-            telescopes to actually see. So we got clever. Five tricks, each
-            using different physics. Pick any one to start.
-          </p>
-        </motion.div>
-      </section>
+            <p className="mono text-[0.72rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-6">
+              § The Five Methods
+            </p>
+            <h1
+              className="display-italic text-[var(--paper)] leading-[0.95] tracking-tight mb-8"
+              style={{ fontSize: "var(--t-display)" }}
+            >
+              Five ways to find a planet.
+            </h1>
+            <p className="text-[var(--paper-dim)] leading-relaxed" style={{ fontSize: "1.1rem" }}>
+              We can't fly to any of these planets. Most are too far for our
+              telescopes to actually see. So we got clever. Five tricks, each
+              using different physics. Pick any one to start.
+            </p>
+          </motion.div>
+        </section>
 
-      <section className="relative px-5 sm:px-10 md:px-16 pb-20">
-        <div className="max-w-6xl mx-auto">
+        <section className="relative pb-20">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {methods.map((method) => (
               <MethodCard key={method.slug} method={method} />
             ))}
           </div>
-        </div>
-      </section>
+        </section>
 
-      <section className="relative py-20 px-5 sm:px-10 md:px-16 border-t border-white/[0.05]">
-        <div className="max-w-6xl">
+        <section className="relative py-20 border-t border-white/[0.05]">
           <p className="mono text-[0.7rem] uppercase tracking-[0.3em] text-[var(--ember)] mb-8">
             § Side by side
           </p>
@@ -85,8 +83,8 @@ export default function MethodsPage() {
               </tbody>
             </table>
           </div>
-        </div>
-      </section>
+        </section>
+      </div>
     </article>
   );
 }
